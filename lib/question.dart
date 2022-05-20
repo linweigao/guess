@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'countdown.dart';
+
 class Question {
   final String question;
   final String answer;
@@ -20,7 +22,7 @@ class QuestionWidget extends StatefulWidget {
   final Question question;
 
   @override
-  _QuestionState createState() => _QuestionState();
+  State<QuestionWidget> createState() => _QuestionState();
 }
 
 class _QuestionState extends State<QuestionWidget> {
@@ -28,9 +30,17 @@ class _QuestionState extends State<QuestionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: showAnswer
-            ? Text(widget.question.question)
-            : Text(widget.question.answer));
+    if (showAnswer) {
+      return Center(child: Text(widget.question.answer));
+    }
+
+    return Stack(children: [
+      Center(child: Text(widget.question.question)),
+      const Positioned(
+          top: 0.0,
+          right: 0.0,
+          child: Padding(
+              padding: EdgeInsets.all(8.0), child: CountDown(second: 30)))
+    ]);
   }
 }
