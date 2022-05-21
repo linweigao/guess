@@ -61,16 +61,21 @@ class _QuestionState extends State<QuestionWidget> {
     return Stack(children: [
       Column(children: [
         Text(widget.question.question),
-        Row(children: [
-          Text(_answer),
-          _answer.isNotEmpty
-              ? InkWell(
-                  onTap: _onAnswerRemoved,
-                  onLongPress: _onAnswerCleared,
-                  child: const Icon(Icons.backspace),
-                )
-              : Container()
-        ]),
+        Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(_answer),
+              SizedBox(
+                  height: 200,
+                  child: _answer.isNotEmpty
+                      ? InkWell(
+                          onTap: _onAnswerRemoved,
+                          onLongPress: _onAnswerCleared,
+                          child: const Icon(Icons.backspace),
+                        )
+                      : null)
+            ]),
         AnswerList(
           answers: widget.answers,
           onAnswerSubmit: _onAnswerChanged,
