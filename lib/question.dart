@@ -18,31 +18,32 @@ class QuestionWidget extends StatefulWidget {
   const QuestionWidget({
     super.key,
     required this.question,
+    required this.answerMatch,
   });
 
   final Question question;
   final answers = const <String>["a", "b", "c", "d", "e", "f", "g", "h", "i"];
+  final Function answerMatch;
 
   @override
   State<QuestionWidget> createState() => _QuestionState();
 }
 
 class _QuestionState extends State<QuestionWidget> {
-  bool showAnswer = false;
   String _answer = "";
 
   _onAnswerChanged(String newAnswer) {
     setState(() {
       _answer += newAnswer;
+
+      if (widget.question.answer == _answer) {
+        widget.answerMatch();
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (showAnswer) {
-      return Center(child: Text(widget.question.answer));
-    }
-
     return Stack(children: [
       Column(children: [
         Text(widget.question.question),

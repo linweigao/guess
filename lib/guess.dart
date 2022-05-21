@@ -20,15 +20,26 @@ class _GuessState extends State<Guess> {
     });
   }
 
+  void _onAnswerMatch() {
+    setState(() {
+      _showAnswer = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    var body = _showAnswer
+        ? Text(questions[_current].answer)
+        : QuestionWidget(
+            question: questions[_current],
+            answerMatch: _onAnswerMatch,
+          );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Please Game'),
       ),
-      body: QuestionWidget(
-        question: questions[_current],
-      ),
+      body: body,
       floatingActionButton: FloatingActionButton(
         onPressed: _onNext,
         tooltip: 'Next',

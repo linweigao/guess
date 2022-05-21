@@ -49,4 +49,10 @@ class _CountDownState extends State<CountDown> {
   Widget build(BuildContext context) {
     return Text('$second');
   }
+
+  @override
+  void dispose() {
+    stopTimer();
+    super.dispose();
+  }
 }
