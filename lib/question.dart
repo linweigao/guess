@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guess/answerList.dart';
 
 import 'countdown.dart';
 
@@ -20,6 +21,7 @@ class QuestionWidget extends StatefulWidget {
   });
 
   final Question question;
+  final answers = const <String>["a", "b", "c", "d", "e", "f", "g", "h", "i"];
 
   @override
   State<QuestionWidget> createState() => _QuestionState();
@@ -27,6 +29,13 @@ class QuestionWidget extends StatefulWidget {
 
 class _QuestionState extends State<QuestionWidget> {
   bool showAnswer = false;
+  String _answer = "";
+
+  _onAnswerChanged(String newAnswer) {
+    setState(() {
+      _answer += newAnswer;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +44,14 @@ class _QuestionState extends State<QuestionWidget> {
     }
 
     return Stack(children: [
-      Center(child: Text(widget.question.question)),
+      Column(children: [
+        Text(widget.question.question),
+        Text(_answer),
+        AnswerList(
+          answers: widget.answers,
+          onAnswerSubmit: _onAnswerChanged,
+        )
+      ]),
       const Positioned(
           top: 0.0,
           right: 0.0,
