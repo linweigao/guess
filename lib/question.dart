@@ -42,12 +42,35 @@ class _QuestionState extends State<QuestionWidget> {
     });
   }
 
+  _onAnswerRemoved() {
+    if (_answer.isNotEmpty) {
+      setState(() {
+        _answer = _answer.substring(0, _answer.length - 1);
+      });
+    }
+  }
+
+  _onAnswerCleared() {
+    setState(() {
+      _answer = "";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
       Column(children: [
         Text(widget.question.question),
-        Text(_answer),
+        Row(children: [
+          Text(_answer),
+          _answer.isNotEmpty
+              ? InkWell(
+                  onTap: _onAnswerRemoved,
+                  onLongPress: _onAnswerCleared,
+                  child: const Icon(Icons.backspace),
+                )
+              : Container()
+        ]),
         AnswerList(
           answers: widget.answers,
           onAnswerSubmit: _onAnswerChanged,
