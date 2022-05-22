@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guess/question.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Guess extends StatefulWidget {
   const Guess({Key? key}) : super(key: key);
@@ -36,6 +37,11 @@ class _GuessState extends State<Guess> {
     });
   }
 
+  void _onShare() {
+    final question = questions[_current];
+    Share.share(question.question);
+  }
+
   @override
   Widget build(BuildContext context) {
     var body = _showAnswer
@@ -67,7 +73,7 @@ class _GuessState extends State<Guess> {
                 color: _showHint ? Colors.yellow : Colors.grey,
               ),
               const Spacer(),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.wechat))
+              IconButton(onPressed: _onShare, icon: const Icon(Icons.share))
             ],
           )),
     );
