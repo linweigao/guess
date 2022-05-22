@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guess/answerList.dart';
+import 'package:guess/charList.dart';
 
 import 'countdown.dart';
 
@@ -15,15 +16,16 @@ class Question {
 }
 
 class QuestionWidget extends StatefulWidget {
-  const QuestionWidget({
+  final Question question;
+  final Function answerMatch;
+  final List<String> _answerlist;
+
+  QuestionWidget({
     super.key,
     required this.question,
     required this.answerMatch,
-  });
-
-  final Question question;
-  final answers = const <String>["a", "b", "c", "d", "e", "f", "g", "h", "i"];
-  final Function answerMatch;
+  }) : _answerlist =
+            CharList.GetAnswerList(question.answer.characters.toList(), 20);
 
   @override
   State<QuestionWidget> createState() => _QuestionState();
@@ -77,7 +79,7 @@ class _QuestionState extends State<QuestionWidget> {
                       : null)
             ]),
         AnswerList(
-          answers: widget.answers,
+          answers: widget._answerlist,
           onAnswerSubmit: _onAnswerChanged,
         )
       ]),
