@@ -1,4 +1,4 @@
-class CharList {
+class CharUtils {
   // #region Common 3000 Chinese words
   static final List<String> list = <String>[
     "一",

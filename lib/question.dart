@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:guess/SuggestionList.dart';
 import 'package:guess/answerList.dart';
-import 'package:guess/charList.dart';
+import 'package:guess/charUtils.dart';
 
 import 'countdown.dart';
 
@@ -40,7 +40,7 @@ class _QuestionState extends State<QuestionWidget> {
   void initState() {
     super.initState();
     _answerlist =
-        CharList.GetAnswerList(widget.question.answer.characters.toList(), 20);
+        CharUtils.GetAnswerList(widget.question.answer.characters.toList(), 20);
   }
 
   _onAnswerChanged(String newAnswer) {
