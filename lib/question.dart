@@ -19,14 +19,14 @@ class Question {
 class QuestionWidget extends StatefulWidget {
   final Question question;
   final Function answerMatch;
-  final List<String> _answerlist;
+  final bool showHint;
 
-  QuestionWidget({
+  const QuestionWidget({
     super.key,
     required this.question,
+    required this.showHint,
     required this.answerMatch,
-  }) : _answerlist =
-            CharList.GetAnswerList(question.answer.characters.toList(), 20);
+  });
 
   @override
   State<QuestionWidget> createState() => _QuestionState();
@@ -34,6 +34,14 @@ class QuestionWidget extends StatefulWidget {
 
 class _QuestionState extends State<QuestionWidget> {
   String _answer = "";
+  late List<String> _answerlist;
+
+  @override
+  void initState() {
+    super.initState();
+    _answerlist =
+        CharList.GetAnswerList(widget.question.answer.characters.toList(), 20);
+  }
 
   _onAnswerChanged(String newAnswer) {
     setState(() {
@@ -67,11 +75,12 @@ class _QuestionState extends State<QuestionWidget> {
         AnswerList(
           submitAnswer: _answer,
           answer: widget.question.answer,
+          showHint: widget.showHint,
           onAnswerCleared: _onAnswerCleared,
           onAnswerRemoved: _onAnswerRemoved,
         ),
         SuggestionList(
-          answers: widget._answerlist,
+          answers: _answerlist,
           onAnswerSubmit: _onAnswerChanged,
         )
       ]),

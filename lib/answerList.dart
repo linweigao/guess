@@ -5,11 +5,13 @@ class AnswerList extends StatefulWidget {
       {super.key,
       required this.submitAnswer,
       required this.answer,
+      required this.showHint,
       required this.onAnswerCleared,
       required this.onAnswerRemoved});
 
   final String submitAnswer;
   final String answer;
+  final bool showHint;
   final Function onAnswerRemoved;
   final Function onAnswerCleared;
 
@@ -52,7 +54,13 @@ class _AnswerListState extends State<AnswerList> {
                 ? widget.submitAnswer[index]
                 : "";
 
-            return SizedBox(width: 100, child: Center(child: Text(answerChar)));
+            return Container(
+                decoration: BoxDecoration(
+                    border: widget.showHint
+                        ? Border.all(width: 2, color: Color(Colors.green.value))
+                        : null),
+                width: 100,
+                child: Center(child: Text(answerChar)));
           },
         ));
   }
