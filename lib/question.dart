@@ -71,7 +71,11 @@ class _QuestionState extends State<QuestionWidget> {
   Widget build(BuildContext context) {
     return Stack(children: [
       Column(children: [
-        Text(widget.question.question),
+        SizedBox(
+          height: 200,
+          child: Text(widget.question.question,
+              style: const TextStyle(fontSize: 50)),
+        ),
         AnswerList(
           submitAnswer: _answer,
           answer: widget.question.answer,
