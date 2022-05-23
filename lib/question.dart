@@ -71,10 +71,11 @@ class _QuestionState extends State<QuestionWidget> {
   Widget build(BuildContext context) {
     return Stack(children: [
       Column(children: [
-        SizedBox(
-          height: 200,
+        Container(
+          alignment: Alignment.center,
+          height: 300,
           child: Text(widget.question.question,
-              style: const TextStyle(fontSize: 50)),
+              style: const TextStyle(fontSize: 100)),
         ),
         AnswerList(
           submitAnswer: _answer,
