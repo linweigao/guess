@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:guess/SuggestionList.dart';
 import 'package:guess/answerList.dart';
-import 'package:guess/charUtils.dart';
 
 import 'countdown.dart';
+import 'game_store.dart';
 
 class Question {
   final String question;
@@ -39,8 +39,27 @@ class _QuestionState extends State<QuestionWidget> {
   @override
   void initState() {
     super.initState();
-    _answerlist =
-        CharUtils.GetAnswerList(widget.question.answer.characters.toList(), 20);
+    _answerlist = _getAnswerList(
+        GameStore.chars, widget.question.answer.characters.toList(), 20);
+  }
+
+  List<String> _getAnswerList(
+      List<String> chars, List<String> answers, int length) {
+    var retVal = <String>[];
+    retVal.addAll(answers.toSet());
+
+    for (var element in chars..shuffle()) {
+      if (!answers.contains(element)) {
+        retVal.add(element);
+      }
+
+      if (retVal.length == length) {
+        break;
+      }
+    }
+
+    retVal.shuffle();
+    return retVal;
   }
 
   _onAnswerChanged(String newAnswer) {

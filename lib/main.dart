@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guess/AssetsUtils.dart';
+import 'package:guess/assets_utils.dart';
 import 'package:guess/start_screen.dart';
 
 import 'guess.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SuggestionList extends StatefulWidget {
-  SuggestionList(
+  const SuggestionList(
       {super.key, required this.answers, required this.onAnswerSubmit});
 
   final List<String> answers;

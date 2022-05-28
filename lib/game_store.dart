@@ -1,4 +1,5 @@
-import 'package:guess/AssetsUtils.dart';
+import 'package:flutter/material.dart';
+import 'package:guess/assets_utils.dart';
 import 'package:guess/question.dart';
 
 enum GameMode {
@@ -8,13 +9,36 @@ enum GameMode {
   chengyu,
 }
 
+class QuestionSet {
+  final GameMode mode;
+  QuestionSet(this.mode);
+
+  late List<Question> questions;
+  late List<String> answered;
+
+  init() async {
+    var name = mode.toString().split('.').last;
+    questions = await AssetsUtils.loadQuestion("$name.json");
+    answered = await AssetsUtils.readSavedStrings(name);
+  }
+}
+
 class GameStore {
-  static List<Question> chengyu = [];
-  static List<Question> dongman = [];
+  static final modes = [GameMode.dongman, GameMode.chengyu];
+  static final Map<GameMode, QuestionSet> modeSet = <GameMode, QuestionSet>{};
+  static List<Question> all = [];
+  static List<String> chars = [];
 
   static Future init() async {
-    chengyu = await AssetsUtils.loadQuestion("chengyu.json");
-    dongman = await AssetsUtils.loadQuestion("dongman.json");
+    await AssetsUtils.init();
+    for (var mode in modes) {
+      var questions = QuestionSet(mode);
+      await questions.init();
+      modeSet[mode] = questions;
+      all.addAll(questions.questions);
+    }
+
+    chars = all.expand((e) => e.answer.characters.toList()).toSet().toList();
   }
 
   static String gameModeText(GameMode mode) {
@@ -35,13 +59,13 @@ class GameStore {
   static List<Question> loadQuestion(GameMode mode) {
     switch (mode) {
       case GameMode.all:
-        return chengyu + dongman;
+        return all;
       case GameMode.casual:
-        return chengyu + dongman;
+        return all;
       case GameMode.chengyu:
-        return chengyu;
+        return modeSet[GameMode.chengyu]!.questions;
       case GameMode.dongman:
-        return dongman;
+        return modeSet[GameMode.dongman]!.questions;
       default:
         return [];
     }
