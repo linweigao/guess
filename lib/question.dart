@@ -1,20 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:guess/SuggestionList.dart';
+import 'package:guess/suggestionlist.dart';
 import 'package:guess/answerList.dart';
 
 import 'countdown.dart';
+import 'data.dart';
 import 'game_store.dart';
-
-class Question {
-  final String question;
-  final String answer;
-
-  Question(this.question, this.answer);
-
-  Question.fromJson(Map<String, dynamic> json)
-      : question = json['question'],
-        answer = json['answer'];
-}
 
 class QuestionWidget extends StatefulWidget {
   final Question question;

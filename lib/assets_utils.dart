@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:guess/question.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'data.dart';
 
 class AssetsUtils {
   static SharedPreferences? _prefs;
@@ -10,19 +11,20 @@ class AssetsUtils {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  static Future<List<Question>> loadQuestion(String path) async {
-    final content = await rootBundle.loadString(path);
+  static Future<List<Question>> loadQuestion(GameMode mode) async {
+    var name = mode.toString().split('.').last;
+    final content = await rootBundle.loadString("$name.json");
     Iterable l = json.decode(content);
     List<Question> questions =
-        List<Question>.from(l.map((model) => Question.fromJson(model)));
+        List<Question>.from(l.map((model) => Question.fromJson(model, mode)));
     return questions;
   }
 
-  static readSavedStrings(String key) {
-    return _prefs?.getStringList(key) ?? [];
+  static readSavedStrings(GameMode mode) {
+    return _prefs!.getStringList(mode.toString()) ?? [];
   }
 
-  static saveStrings(String key, List<String> value) async {
-    return await _prefs?.setStringList(key, value);
+  static Future<bool> saveStrings(GameMode mode, List<String> value) async {
+    return await _prefs!.setStringList(mode.toString(), value);
   }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:guess/data.dart';
 import 'package:guess/game_store.dart';
 import 'package:guess/question.dart';
 import 'package:share_plus/share_plus.dart';
+
+import 'answer.dart';
 
 class Guess extends StatefulWidget {
   final GameMode mode;
@@ -54,10 +57,12 @@ class _GuessState extends State<Guess> {
 
   @override
   Widget build(BuildContext context) {
+    Question current = questions[_current];
+
     var body = _showAnswer
-        ? Text(questions[_current].answer)
+        ? Answer(answer: current.answer, mode: current.mode)
         : QuestionWidget(
-            question: questions[_current],
+            question: current,
             showHint: _showHint,
             answerMatch: _onAnswerMatch,
           );

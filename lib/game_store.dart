@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:guess/assets_utils.dart';
-import 'package:guess/question.dart';
 
-enum GameMode {
-  casual,
-  all,
-  dongman,
-  chengyu,
-}
+import 'data.dart';
 
 class QuestionSet {
   final GameMode mode;
@@ -17,9 +11,8 @@ class QuestionSet {
   late List<String> answered;
 
   init() async {
-    var name = mode.toString().split('.').last;
-    questions = await AssetsUtils.loadQuestion("$name.json");
-    answered = await AssetsUtils.readSavedStrings(name);
+    questions = await AssetsUtils.loadQuestion(mode);
+    answered = await AssetsUtils.readSavedStrings(mode);
   }
 }
 
@@ -54,6 +47,16 @@ class GameStore {
       default:
         return "";
     }
+  }
+
+  static String modeStatus(GameMode mode) {
+    QuestionSet? set = modeSet[mode];
+
+    if (set != null) {
+      return "${set.answered.length} / ${set.questions.length}";
+    }
+
+    return "";
   }
 
   static List<Question> loadQuestion(GameMode mode) {

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:guess/game_store.dart';
 import 'package:guess/guess.dart';
 
+import 'data.dart';
+
 class StartScreen extends StatefulWidget {
   const StartScreen({Key? key}) : super(key: key);
 
@@ -28,7 +30,10 @@ class _StartScreenState extends State<StartScreen> {
               }));
             },
             child: Center(
-                child: Text(GameStore.gameModeText(GameMode.values[index]))));
+                child: Column(children: [
+              Text(GameStore.gameModeText(GameMode.values[index])),
+              Text(GameStore.modeStatus(GameMode.values[index]))
+            ])));
       },
     ));
   }
