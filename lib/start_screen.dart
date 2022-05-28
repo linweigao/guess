@@ -24,10 +24,12 @@ class _StartScreenState extends State<StartScreen> {
       itemCount: GameMode.values.length,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
+            onTap: () async {
+              await Navigator.push(context,
+                  MaterialPageRoute(builder: (context) {
                 return Guess(mode: GameMode.values[index]);
               }));
+              setState(() {});
             },
             child: Center(
                 child: Column(children: [

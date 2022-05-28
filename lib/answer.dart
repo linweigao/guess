@@ -20,6 +20,7 @@ class _AnswerState extends State<Answer> {
     super.initState();
     QuestionSet set = GameStore.modeSet[widget.mode]!;
     set.answered.add(widget.answer);
+    GameStore.allAnswered.add(widget.answer);
 
     AssetsUtils.saveStrings(widget.mode, set.answered)
         .then((value) => developer.log("saved:$value"));

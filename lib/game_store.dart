@@ -19,7 +19,8 @@ class QuestionSet {
 class GameStore {
   static final modes = [GameMode.dongman, GameMode.chengyu];
   static final Map<GameMode, QuestionSet> modeSet = <GameMode, QuestionSet>{};
-  static List<Question> all = [];
+  static List<Question> allQuestions = [];
+  static List<String> allAnswered = [];
   static List<String> chars = [];
 
   static Future init() async {
@@ -28,10 +29,23 @@ class GameStore {
       var questions = QuestionSet(mode);
       await questions.init();
       modeSet[mode] = questions;
-      all.addAll(questions.questions);
+      allQuestions.addAll(questions.questions);
+      allAnswered.addAll(questions.answered);
     }
 
-    chars = all.expand((e) => e.answer.characters.toList()).toSet().toList();
+    var allSet = QuestionSet(GameMode.all);
+    allSet.questions = allQuestions;
+    allSet.answered = allAnswered;
+
+    modeSet[GameMode.all] = allSet;
+
+    var freeSet = QuestionSet(GameMode.casual);
+    freeSet.questions = allQuestions;
+
+    chars = allQuestions
+        .expand((e) => e.answer.characters.toList())
+        .toSet()
+        .toList();
   }
 
   static String gameModeText(GameMode mode) {
@@ -60,17 +74,9 @@ class GameStore {
   }
 
   static List<Question> loadQuestion(GameMode mode) {
-    switch (mode) {
-      case GameMode.all:
-        return all;
-      case GameMode.casual:
-        return all;
-      case GameMode.chengyu:
-        return modeSet[GameMode.chengyu]!.questions;
-      case GameMode.dongman:
-        return modeSet[GameMode.dongman]!.questions;
-      default:
-        return [];
-    }
+    final set = modeSet[mode]!;
+    return set.questions
+        .where((question) => !set.answered.contains(question.answer))
+        .toList();
   }
 }
