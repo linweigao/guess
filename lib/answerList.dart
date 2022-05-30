@@ -57,10 +57,11 @@ class _AnswerListState extends State<AnswerList> {
                 : "";
 
             return Container(
+                margin: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
                     border:
                         Border.all(width: 2, color: Color(Colors.green.value))),
-                width: 100,
+                width: 80,
                 child: Center(child: Text(answerChar)));
           },
         ));

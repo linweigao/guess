@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:guess/suggestionlist.dart';
 import 'package:guess/answerList.dart';
 
-import 'countdown.dart';
 import 'data.dart';
 import 'game_store.dart';
 
@@ -87,12 +86,12 @@ class _QuestionState extends State<QuestionWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final double size = widget.question.question.length > 4 ? 60 : 80;
     return Column(children: [
       Container(
         alignment: Alignment.center,
         height: 300,
-        child: Text(widget.question.question,
-            style: const TextStyle(fontSize: 80)),
+        child: Text(widget.question.question, style: TextStyle(fontSize: size)),
       ),
       AnswerList(
         submitAnswer: _answer,
@@ -101,6 +100,7 @@ class _QuestionState extends State<QuestionWidget> {
         onAnswerCleared: _onAnswerCleared,
         onAnswerRemoved: _onAnswerRemoved,
       ),
+      const SizedBox(height: 100),
       SuggestionList(
         answers: _answerlist,
         onAnswerSubmit: _onAnswerChanged,

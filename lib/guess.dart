@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'dart:developer' as developer;
+
 import 'package:guess/data.dart';
 import 'package:guess/game_store.dart';
 import 'package:guess/question.dart';
 import 'package:share_plus/share_plus.dart';
 
 import 'answer.dart';
+import 'assets_utils.dart';
 
 class Guess extends StatefulWidget {
   final GameMode mode;
@@ -42,6 +45,14 @@ class _GuessState extends State<Guess> {
 
   void _onAnswerMatch() {
     setState(() {
+      final question = questions[_current];
+      QuestionSet set = GameStore.modeSet[question.mode]!;
+      set.answered.add(question.answer);
+      GameStore.allAnswered.add(question.answer);
+
+      AssetsUtils.saveStrings(set.mode, set.answered)
+          .then((value) => developer.log("saved:$value"));
+
       _showAnswer = true;
     });
   }
