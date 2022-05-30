@@ -23,9 +23,10 @@ class _StartScreenState extends State<StartScreen> {
           itemCount: GameMode.values.length,
           itemBuilder: (BuildContext context, int index) {
             return Container(
-                height: 80,
+                height: 100,
                 margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
                 decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 131, 126, 126),
                   border: Border.all(
                     color: Colors.black,
                     width: 8,
@@ -40,11 +41,11 @@ class _StartScreenState extends State<StartScreen> {
                       }));
                       setState(() {});
                     },
-                    child: Center(
-                        child: Column(children: [
-                      Text(GameStore.gameModeText(GameMode.values[index])),
+                    child: Column(children: [
+                      Text(GameStore.gameModeText(GameMode.values[index]),
+                          style: const TextStyle(fontSize: 40)),
                       Text(GameStore.modeStatus(GameMode.values[index]))
-                    ]))));
+                    ])));
           },
         ));
   }

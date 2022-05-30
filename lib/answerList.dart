@@ -33,7 +33,7 @@ class _AnswerListState extends State<AnswerList> {
     final answer = widget.answer.characters.toList();
 
     return SizedBox(
-        height: 100,
+        height: 90,
         child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
@@ -41,14 +41,12 @@ class _AnswerListState extends State<AnswerList> {
           itemBuilder: (context, index) {
             // render "remove" button
             if (index == answer.length) {
-              if (widget.submitAnswer.isEmpty) {
-                return Container();
-              }
-
-              return InkWell(
-                  onTap: _onAnswerRemoved,
-                  onLongPress: _onAnswerCleared,
-                  child: const Icon(Icons.backspace));
+              return SizedBox(
+                  width: 20,
+                  child: InkWell(
+                      onTap: _onAnswerRemoved,
+                      onLongPress: _onAnswerCleared,
+                      child: const Icon(Icons.backspace)));
             }
 
             // render submitted answers
@@ -59,10 +57,10 @@ class _AnswerListState extends State<AnswerList> {
             return Container(
                 margin: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
-                    border:
-                        Border.all(width: 2, color: Color(Colors.green.value))),
+                    border: Border.all(
+                        width: 2, color: Color(Colors.yellow.value))),
                 width: 80,
-                child: Center(child: Text(answerChar)));
+                child: FittedBox(child: Text(answerChar)));
           },
         ));
   }
