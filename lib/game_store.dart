@@ -76,6 +76,11 @@ class GameStore {
     return "${set.answered.length} / ${set.questions.length}";
   }
 
+  static bool isModeComplete(GameMode mode) {
+    QuestionSet? set = modeSet[mode]!;
+    return set.answered.length == set.questions.length;
+  }
+
   static List<Question> loadQuestion(GameMode mode) {
     final set = modeSet[mode]!;
     return set.questions

@@ -22,8 +22,11 @@ class _StartScreenState extends State<StartScreen> {
           shrinkWrap: true,
           itemCount: GameMode.values.length,
           itemBuilder: (BuildContext context, int index) {
+            final mode = GameMode.values[index];
+            final isComplete = GameStore.isModeComplete(mode);
+
             return Container(
-                height: 100,
+                height: 80,
                 margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 131, 126, 126),
@@ -37,14 +40,32 @@ class _StartScreenState extends State<StartScreen> {
                     onTap: () async {
                       await Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return Guess(mode: GameMode.values[index]);
+                        return Guess(mode: mode);
                       }));
                       setState(() {});
                     },
                     child: Column(children: [
-                      Text(GameStore.gameModeText(GameMode.values[index]),
-                          style: const TextStyle(fontSize: 40)),
-                      Text(GameStore.modeStatus(GameMode.values[index]))
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20, right: 10),
+                              child: Text(
+                                GameStore.gameModeText(mode),
+                                style: const TextStyle(fontSize: 40),
+                                textAlign: TextAlign.center,
+                              )),
+                          Text(GameStore.modeStatus(mode)),
+                          const Spacer(),
+                          isComplete
+                              ? const Padding(
+                                  padding: EdgeInsets.only(right: 10),
+                                  child: Icon(Icons.assignment_turned_in_sharp,
+                                      size: 40))
+                              : Container()
+                        ],
+                      ),
                     ])));
           },
         ));
