@@ -57,6 +57,23 @@ class _GuessState extends State<Guess> {
 
   @override
   Widget build(BuildContext context) {
+    if (_current == questions.length) {
+      final modeTxt = GameStore.gameModeText(widget.mode);
+
+      return Scaffold(
+          body: Center(
+              child: Text("🎉恭喜你完成了$modeTxt.",
+                  style: const TextStyle(fontSize: 50))),
+          floatingActionButton: FloatingActionButton(
+              tooltip: "返回主界面",
+              child: const Icon(Icons.assignment_return_rounded),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat);
+    }
+
     Question current = questions[_current];
 
     var body = _showAnswer

@@ -17,7 +17,7 @@ class QuestionSet {
 }
 
 class GameStore {
-  static final modes = [GameMode.dongman, GameMode.chengyu];
+  static final modes = [GameMode.dongman, GameMode.chengyu, GameMode.test];
   static final Map<GameMode, QuestionSet> modeSet = <GameMode, QuestionSet>{};
   static List<Question> allQuestions = [];
   static List<String> allAnswered = [];
@@ -58,6 +58,8 @@ class GameStore {
         return "成语模式";
       case GameMode.dongman:
         return "动漫模式";
+      case GameMode.test:
+        return "测试";
       default:
         return "";
     }
