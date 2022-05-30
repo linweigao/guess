@@ -42,11 +42,12 @@ class _AnswerListState extends State<AnswerList> {
             // render "remove" button
             if (index == answer.length) {
               return SizedBox(
-                  width: 20,
-                  child: InkWell(
-                      onTap: _onAnswerRemoved,
-                      onLongPress: _onAnswerCleared,
-                      child: const Icon(Icons.backspace)));
+                  width: 40,
+                  child: FittedBox(
+                      child: InkWell(
+                          onTap: _onAnswerRemoved,
+                          onLongPress: _onAnswerCleared,
+                          child: const Icon(Icons.backspace))));
             }
 
             // render submitted answers
