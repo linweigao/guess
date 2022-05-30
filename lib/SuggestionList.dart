@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SuggestionList extends StatefulWidget {
   const SuggestionList(
@@ -13,6 +14,7 @@ class SuggestionList extends StatefulWidget {
 
 class _SuggestionListState extends State<SuggestionList> {
   _onTap(index) {
+    SystemSound.play(SystemSoundType.click);
     widget.onAnswerSubmit(widget.answers[index]);
   }
 

@@ -20,12 +20,14 @@ class _GuessState extends State<Guess> {
   int _current = 0;
   bool _showAnswer = false;
   bool _showHint = false;
+  String _modeText = "";
 
   @override
   void initState() {
     super.initState();
     questions = GameStore.loadQuestion(widget.mode);
     questions.shuffle();
+    _modeText = GameStore.gameModeText(widget.mode);
   }
 
   void _onNext() {
@@ -58,11 +60,9 @@ class _GuessState extends State<Guess> {
   @override
   Widget build(BuildContext context) {
     if (_current == questions.length) {
-      final modeTxt = GameStore.gameModeText(widget.mode);
-
       return Scaffold(
           body: Center(
-              child: Text("🎉恭喜你完成了$modeTxt.",
+              child: Text("🎉恭喜你完成了$_modeText.",
                   style: const TextStyle(fontSize: 50))),
           floatingActionButton: FloatingActionButton(
               tooltip: "返回主界面",
@@ -75,6 +75,7 @@ class _GuessState extends State<Guess> {
     }
 
     Question current = questions[_current];
+    String questionMode = GameStore.gameModeText(current.mode);
 
     var body = _showAnswer
         ? Answer(answer: current.answer, mode: current.mode)
@@ -86,7 +87,7 @@ class _GuessState extends State<Guess> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Please Game'),
+        title: Text(questionMode),
       ),
       body: body,
       floatingActionButton: FloatingActionButton(

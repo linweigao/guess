@@ -17,27 +17,36 @@ class _StartScreenState extends State<StartScreen> {
 
   Widget _buildMenu(BuildContext context) {
     return Scaffold(
-        body: GridView.builder(
-      shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, crossAxisSpacing: 16),
-      itemCount: GameMode.values.length,
-      itemBuilder: (BuildContext context, int index) {
-        return InkWell(
-            onTap: () async {
-              await Navigator.push(context,
-                  MaterialPageRoute(builder: (context) {
-                return Guess(mode: GameMode.values[index]);
-              }));
-              setState(() {});
-            },
-            child: Center(
-                child: Column(children: [
-              Text(GameStore.gameModeText(GameMode.values[index])),
-              Text(GameStore.modeStatus(GameMode.values[index]))
-            ])));
-      },
-    ));
+        appBar: AppBar(title: const Text("🤯 脑洞大开  请你挑战 🤯")),
+        body: ListView.builder(
+          shrinkWrap: true,
+          itemCount: GameMode.values.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+                height: 80,
+                margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black,
+                    width: 8,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: InkWell(
+                    onTap: () async {
+                      await Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return Guess(mode: GameMode.values[index]);
+                      }));
+                      setState(() {});
+                    },
+                    child: Center(
+                        child: Column(children: [
+                      Text(GameStore.gameModeText(GameMode.values[index])),
+                      Text(GameStore.modeStatus(GameMode.values[index]))
+                    ]))));
+          },
+        ));
   }
 
   @override
@@ -78,9 +87,8 @@ class _StartScreenState extends State<StartScreen> {
                       _showMenu = true;
                     });
                   },
-                  child: const Text("Tap to continue...",
-                      style: TextStyle(fontSize: 80)))
-              : const Text("loading...", style: TextStyle(fontSize: 80)),
+                  child: const Text("开始", style: TextStyle(fontSize: 80)))
+              : const Text("加载ing...", style: TextStyle(fontSize: 80)),
         )
       ],
     ));

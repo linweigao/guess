@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:guess/suggestionlist.dart';
 import 'package:guess/answerList.dart';
 
@@ -54,10 +55,18 @@ class _QuestionState extends State<QuestionWidget> {
 
   _onAnswerChanged(String newAnswer) {
     setState(() {
-      _answer += newAnswer;
+      if (_answer.length < widget.question.answer.length) {
+        // Ignore more submission
+        _answer += newAnswer;
+      }
 
-      if (widget.question.answer == _answer) {
-        widget.answerMatch();
+      if (widget.question.answer.length == _answer.length) {
+        if (widget.question.answer == _answer) {
+          widget.answerMatch();
+        } else {
+          // Play error sound
+          SystemSound.play(SystemSoundType.alert);
+        }
       }
     });
   }
@@ -78,31 +87,24 @@ class _QuestionState extends State<QuestionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Column(children: [
-        Container(
-          alignment: Alignment.center,
-          height: 300,
-          child: Text(widget.question.question,
-              style: const TextStyle(fontSize: 100)),
-        ),
-        AnswerList(
-          submitAnswer: _answer,
-          answer: widget.question.answer,
-          showHint: widget.showHint,
-          onAnswerCleared: _onAnswerCleared,
-          onAnswerRemoved: _onAnswerRemoved,
-        ),
-        SuggestionList(
-          answers: _answerlist,
-          onAnswerSubmit: _onAnswerChanged,
-        )
-      ]),
-      const Positioned(
-          top: 0.0,
-          right: 0.0,
-          child: Padding(
-              padding: EdgeInsets.all(8.0), child: CountDown(second: 30)))
+    return Column(children: [
+      Container(
+        alignment: Alignment.center,
+        height: 300,
+        child: Text(widget.question.question,
+            style: const TextStyle(fontSize: 80)),
+      ),
+      AnswerList(
+        submitAnswer: _answer,
+        answer: widget.question.answer,
+        showHint: widget.showHint,
+        onAnswerCleared: _onAnswerCleared,
+        onAnswerRemoved: _onAnswerRemoved,
+      ),
+      SuggestionList(
+        answers: _answerlist,
+        onAnswerSubmit: _onAnswerChanged,
+      )
     ]);
   }
 }

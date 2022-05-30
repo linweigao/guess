@@ -39,6 +39,7 @@ class _AnswerListState extends State<AnswerList> {
           scrollDirection: Axis.horizontal,
           itemCount: answer.length + 1,
           itemBuilder: (context, index) {
+            // render "remove" button
             if (index == answer.length) {
               if (widget.submitAnswer.isEmpty) {
                 return Container();
@@ -50,15 +51,15 @@ class _AnswerListState extends State<AnswerList> {
                   child: const Icon(Icons.backspace));
             }
 
+            // render submitted answers
             final answerChar = index < widget.submitAnswer.length
                 ? widget.submitAnswer[index]
                 : "";
 
             return Container(
                 decoration: BoxDecoration(
-                    border: widget.showHint
-                        ? Border.all(width: 2, color: Color(Colors.green.value))
-                        : null),
+                    border:
+                        Border.all(width: 2, color: Color(Colors.green.value))),
                 width: 100,
                 child: Center(child: Text(answerChar)));
           },

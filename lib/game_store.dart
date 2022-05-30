@@ -36,11 +36,12 @@ class GameStore {
     var allSet = QuestionSet(GameMode.all);
     allSet.questions = allQuestions;
     allSet.answered = allAnswered;
-
     modeSet[GameMode.all] = allSet;
 
     var freeSet = QuestionSet(GameMode.casual);
     freeSet.questions = allQuestions;
+    freeSet.answered = [];
+    modeSet[GameMode.casual] = freeSet;
 
     chars = allQuestions
         .expand((e) => e.answer.characters.toList())
@@ -51,28 +52,28 @@ class GameStore {
   static String gameModeText(GameMode mode) {
     switch (mode) {
       case GameMode.all:
-        return "乱斗模式";
+        return "乱斗挑战";
       case GameMode.casual:
         return "休闲模式";
       case GameMode.chengyu:
-        return "成语模式";
+        return "成语挑战";
       case GameMode.dongman:
-        return "动漫模式";
+        return "动漫挑战";
       case GameMode.test:
-        return "测试";
+        return "测试挑战";
       default:
         return "";
     }
   }
 
   static String modeStatus(GameMode mode) {
-    QuestionSet? set = modeSet[mode];
-
-    if (set != null) {
-      return "${set.answered.length} / ${set.questions.length}";
+    if (mode == GameMode.casual) {
+      return "";
     }
 
-    return "";
+    QuestionSet? set = modeSet[mode]!;
+
+    return "${set.answered.length} / ${set.questions.length}";
   }
 
   static List<Question> loadQuestion(GameMode mode) {
