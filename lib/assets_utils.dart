@@ -13,7 +13,7 @@ class AssetsUtils {
 
   static Future<List<Question>> loadQuestion(GameMode mode) async {
     var name = mode.toString().split('.').last;
-    final content = await rootBundle.loadString("$name.json");
+    final content = await rootBundle.loadString("assets/$name.json");
     Iterable l = json.decode(content);
     List<Question> questions =
         List<Question>.from(l.map((model) => Question.fromJson(model, mode)));

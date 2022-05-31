@@ -86,13 +86,20 @@ class _QuestionState extends State<QuestionWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final double size = widget.question.question.length > 4 ? 60 : 80;
     return Column(children: [
       Container(
         alignment: Alignment.center,
+        padding: const EdgeInsets.only(left: 20, right: 20),
         height: 300,
-        child: Text(widget.question.question, style: TextStyle(fontSize: size)),
+        color: Colors.white70,
+        child: FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(
+              widget.question.question,
+              style: Theme.of(context).textTheme.headline1,
+            )),
       ),
+      const SizedBox(height: 25),
       AnswerList(
         submitAnswer: _answer,
         answer: widget.question.answer,
@@ -100,7 +107,7 @@ class _QuestionState extends State<QuestionWidget> {
         onAnswerCleared: _onAnswerCleared,
         onAnswerRemoved: _onAnswerRemoved,
       ),
-      const SizedBox(height: 100),
+      const SizedBox(height: 25),
       SuggestionList(
         answers: _answerlist,
         onAnswerSubmit: _onAnswerChanged,

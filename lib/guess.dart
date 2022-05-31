@@ -73,8 +73,8 @@ class _GuessState extends State<Guess> {
     if (_current == questions.length) {
       return Scaffold(
           body: Center(
-              child: Text("🎉恭喜你完成了$_modeText.",
-                  style: const TextStyle(fontSize: 50))),
+              child: Text("🎉恭喜你完成了\n$_modeText。",
+                  style: Theme.of(context).textTheme.headline3)),
           floatingActionButton: FloatingActionButton(
               tooltip: "返回主界面",
               child: const Icon(Icons.assignment_return_rounded),
@@ -86,7 +86,7 @@ class _GuessState extends State<Guess> {
     }
 
     Question current = questions[_current];
-    String questionMode = GameStore.gameModeText(current.mode);
+    String questionMode = GameStore.gameModeText(widget.mode);
 
     var body = _showAnswer
         ? Answer(answer: current.answer, mode: current.mode)

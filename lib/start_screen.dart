@@ -26,7 +26,6 @@ class _StartScreenState extends State<StartScreen> {
             final isComplete = GameStore.isModeComplete(mode);
 
             return Container(
-                height: 80,
                 margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 131, 126, 126),
@@ -53,16 +52,20 @@ class _StartScreenState extends State<StartScreen> {
                                   const EdgeInsets.only(left: 20, right: 10),
                               child: Text(
                                 GameStore.gameModeText(mode),
-                                style: const TextStyle(fontSize: 40),
+                                style: Theme.of(context).textTheme.headline3,
                                 textAlign: TextAlign.center,
                               )),
-                          Text(GameStore.modeStatus(mode)),
+                          Text(GameStore.modeStatus(mode),
+                              style: Theme.of(context).textTheme.bodyMedium),
                           const Spacer(),
                           isComplete
-                              ? const Padding(
-                                  padding: EdgeInsets.only(right: 10),
-                                  child: Icon(Icons.assignment_turned_in_sharp,
-                                      size: 40))
+                              ? Padding(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  child: Icon(
+                                    Icons.assignment_turned_in_sharp,
+                                    size: 40,
+                                    color: Colors.yellow.shade200,
+                                  ))
                               : Container()
                         ],
                       ),
@@ -95,13 +98,12 @@ class _StartScreenState extends State<StartScreen> {
           alignment: Alignment.center,
           height: 500,
           child: Column(children: const [
-            Text("🤯", style: TextStyle(fontSize: 300)),
+            Text("🤯", style: TextStyle(fontSize: 280)),
             Text("脑洞大开", style: TextStyle(fontSize: 80))
           ]),
         ),
         Container(
           alignment: Alignment.center,
-          height: 100,
           child: _init
               ? InkWell(
                   onTap: () {
@@ -109,8 +111,8 @@ class _StartScreenState extends State<StartScreen> {
                       _showMenu = true;
                     });
                   },
-                  child: const Text("开始", style: TextStyle(fontSize: 80)))
-              : const Text("加载ing...", style: TextStyle(fontSize: 80)),
+                  child: const Text("开始", style: TextStyle(fontSize: 60)))
+              : const Text("加载ing...", style: TextStyle(fontSize: 60)),
         )
       ],
     ));
