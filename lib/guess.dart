@@ -66,7 +66,7 @@ class _GuessState extends State<Guess> {
 
   void _onShowHint() {
     setState(() {
-      _showHint = !_showHint;
+      _showHint = true;
     });
   }
 

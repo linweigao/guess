@@ -5,13 +5,11 @@ class AnswerList extends StatefulWidget {
       {super.key,
       required this.submitAnswer,
       required this.answer,
-      required this.showHint,
       required this.onAnswerCleared,
       required this.onAnswerRemoved});
 
   final String submitAnswer;
   final String answer;
-  final bool showHint;
   final Function onAnswerRemoved;
   final Function onAnswerCleared;
 

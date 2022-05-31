@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:guess/suggestionlist.dart';
@@ -25,30 +27,37 @@ class QuestionWidget extends StatefulWidget {
 class _QuestionState extends State<QuestionWidget> {
   String _answer = "";
   late List<String> _answerlist;
+  late String _hintAnswer;
 
   @override
   void initState() {
     super.initState();
-    _answerlist = _getAnswerList(
-        GameStore.chars, widget.question.answer.characters.toList(), 20);
+    final wrongList = _getWrongList(
+        GameStore.chars, widget.question.answer.characters.toList(), 18);
+
+    final r = Random();
+    _hintAnswer = wrongList[r.nextInt(wrongList.length - 1)];
+
+    _answerlist = wrongList.toList(growable: true);
+    _answerlist.addAll(widget.question.answer.characters.toSet().toList());
+    _answerlist.shuffle();
   }
 
-  List<String> _getAnswerList(
+  List<String> _getWrongList(
       List<String> chars, List<String> answers, int length) {
+    final wrongLength = length - answers.toSet().toList().length;
     var retVal = <String>[];
-    retVal.addAll(answers.toSet());
 
     for (var element in chars..shuffle()) {
       if (!answers.contains(element)) {
         retVal.add(element);
       }
 
-      if (retVal.length == length) {
+      if (retVal.length == wrongLength) {
         break;
       }
     }
 
-    retVal.shuffle();
     return retVal;
   }
 
@@ -103,15 +112,16 @@ class _QuestionState extends State<QuestionWidget> {
       AnswerList(
         submitAnswer: _answer,
         answer: widget.question.answer,
-        showHint: widget.showHint,
         onAnswerCleared: _onAnswerCleared,
         onAnswerRemoved: _onAnswerRemoved,
       ),
       const SizedBox(height: 25),
-      SuggestionList(
+      Expanded(
+          child: SuggestionList(
         answers: _answerlist,
         onAnswerSubmit: _onAnswerChanged,
-      )
+        hintAnswer: widget.showHint ? _hintAnswer : "",
+      ))
     ]);
   }
 }
