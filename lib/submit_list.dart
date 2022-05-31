@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 
-class AnswerList extends StatefulWidget {
-  const AnswerList(
+class SubmitList extends StatefulWidget {
+  const SubmitList(
       {super.key,
       required this.submitAnswer,
       required this.answer,
-      required this.onAnswerCleared,
-      required this.onAnswerRemoved});
+      required this.onSubmitCleared,
+      required this.onSubmitRemoved});
 
   final String submitAnswer;
   final String answer;
-  final Function onAnswerRemoved;
-  final Function onAnswerCleared;
+  final Function onSubmitRemoved;
+  final Function onSubmitCleared;
 
   @override
-  State<AnswerList> createState() => _AnswerListState();
+  State<SubmitList> createState() => _SubmitListState();
 }
 
-class _AnswerListState extends State<AnswerList> {
+class _SubmitListState extends State<SubmitList> {
   _onAnswerRemoved() {
-    widget.onAnswerRemoved();
+    widget.onSubmitRemoved();
   }
 
   _onAnswerCleared() {
-    widget.onAnswerCleared();
+    widget.onSubmitCleared();
   }
 
   @override

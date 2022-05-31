@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:guess/suggestionlist.dart';
-import 'package:guess/answerList.dart';
+import 'package:guess/suggestion_list.dart';
+import 'package:guess/submission_list.dart';
 
 import 'data.dart';
 import 'game_store.dart';
