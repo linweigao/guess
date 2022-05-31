@@ -91,7 +91,7 @@ class _QuestionState extends State<QuestionWidget> {
         alignment: Alignment.center,
         padding: const EdgeInsets.only(left: 20, right: 20),
         height: 300,
-        color: Colors.white70,
+        color: Colors.white30,
         child: FittedBox(
             fit: BoxFit.fitWidth,
             child: Text(

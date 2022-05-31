@@ -22,6 +22,7 @@ class _GuessState extends State<Guess> {
   late List<Question> questions;
   int _current = 0;
   bool _showAnswer = false;
+  bool _answerCorrect = false;
   bool _showHint = false;
   String _modeText = "";
 
@@ -33,13 +34,18 @@ class _GuessState extends State<Guess> {
     _modeText = GameStore.gameModeText(widget.mode);
   }
 
+  void _onGiveUp() {
+    setState(() {
+      _showAnswer = true;
+      _answerCorrect = false;
+    });
+  }
+
   void _onNext() {
     setState(() {
-      _showAnswer = !_showAnswer;
-      if (!_showAnswer) {
-        _current++;
-        _showHint = false;
-      }
+      _showAnswer = false;
+      _answerCorrect = false;
+      _current++;
     });
   }
 
@@ -54,6 +60,7 @@ class _GuessState extends State<Guess> {
           .then((value) => developer.log("saved:$value"));
 
       _showAnswer = true;
+      _answerCorrect = true;
     });
   }
 
@@ -83,45 +90,88 @@ class _GuessState extends State<Guess> {
   }
 
   Widget _buildQuestionPage(BuildContext context, Question question) {
-    return Stack(
-      children: <Widget>[
-        QuestionWidget(
-          question: question,
-          showHint: _showHint,
-          answerMatch: _onAnswerMatch,
+    final title = GameStore.gameModeText(question.mode);
+
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(title),
         ),
-        Align(
-          alignment: Alignment.bottomLeft,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20, bottom: 20),
-            child: FloatingActionButton(
-                onPressed: _onShowHint,
-                tooltip: '去掉一个错误',
-                child: const Icon(Icons.highlight_off, size: 30)),
-          ),
+        body: Stack(
+          children: <Widget>[
+            QuestionWidget(
+              question: question,
+              showHint: _showHint,
+              answerMatch: _onAnswerMatch,
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, bottom: 20),
+                child: FloatingActionButton(
+                    onPressed: _onShowHint,
+                    tooltip: '去掉一个错误',
+                    child: const Icon(Icons.highlight_off, size: 30)),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: FloatingActionButton(
+                    onPressed: _onShare,
+                    tooltip: '场外求助',
+                    child: const Icon(Icons.ios_share, size: 30)),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20, bottom: 20),
+                child: FloatingActionButton(
+                    onPressed: _onGiveUp,
+                    tooltip: '放弃',
+                    child: const Icon(Icons.navigate_next, size: 30)),
+              ),
+            ),
+          ],
+        ));
+  }
+
+  Widget _buildAnswerPage(BuildContext context, Question question) {
+    return Scaffold(
+        appBar: AppBar(
+          title: _answerCorrect
+              ? const Text("恭喜，你的脑洞真大")
+              : const Text("大概你的脑洞不够大吧"),
         ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: FloatingActionButton(
-                onPressed: _onShare,
-                tooltip: '场外求助',
-                child: const Icon(Icons.ios_share, size: 30)),
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 20, bottom: 20),
-            child: FloatingActionButton(
-                onPressed: _onNext,
-                tooltip: '放弃',
-                child: const Icon(Icons.navigate_next, size: 30)),
-          ),
-        ),
-      ],
-    );
+        body: Stack(
+          children: <Widget>[
+            Answer(
+              question: question,
+              correct: _answerCorrect,
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: FloatingActionButton(
+                    onPressed: _onShare,
+                    tooltip: '分享成功',
+                    child: const Icon(Icons.ios_share, size: 30)),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20, bottom: 20),
+                child: FloatingActionButton(
+                    onPressed: _onNext,
+                    tooltip: '下一题',
+                    child: const Icon(Icons.navigate_next, size: 30)),
+              ),
+            ),
+          ],
+        ));
   }
 
   @override
@@ -131,17 +181,11 @@ class _GuessState extends State<Guess> {
     }
 
     Question current = questions[_current];
-    String questionMode = GameStore.gameModeText(widget.mode);
 
-    var body = _showAnswer
-        ? Answer(answer: current.answer, mode: current.mode)
-        : _buildQuestionPage(context, current);
+    if (_showAnswer) {
+      return _buildAnswerPage(context, current);
+    }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(questionMode),
-      ),
-      body: body,
-    );
+    return _buildQuestionPage(context, current);
   }
 }
