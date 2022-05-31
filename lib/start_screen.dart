@@ -91,30 +91,33 @@ class _StartScreenState extends State<StartScreen> {
     }
 
     return Scaffold(
-        body: Column(
-      children: [
-        Container(
-          margin: const EdgeInsets.only(top: 100),
-          alignment: Alignment.center,
-          height: 500,
-          child: Column(children: const [
-            Text("🤯", style: TextStyle(fontSize: 280)),
-            Text("脑洞大开", style: TextStyle(fontSize: 80))
-          ]),
-        ),
-        Container(
-          alignment: Alignment.center,
-          child: _init
-              ? InkWell(
-                  onTap: () {
-                    setState(() {
-                      _showMenu = true;
-                    });
-                  },
-                  child: const Text("开始", style: TextStyle(fontSize: 60)))
-              : const Text("加载ing...", style: TextStyle(fontSize: 60)),
-        )
-      ],
-    ));
+        body: InkWell(
+            onTap: () {
+              if (_init) {
+                setState(() {
+                  _showMenu = true;
+                });
+              }
+            },
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 100),
+                  alignment: Alignment.center,
+                  height: 500,
+                  child: Column(children: const [
+                    Text("🤯", style: TextStyle(fontSize: 280)),
+                    Text("脑洞大开", style: TextStyle(fontSize: 80))
+                  ]),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  child: _init
+                      ? const Text("Tap...", style: TextStyle(fontSize: 60))
+                      : const Text("Loading...",
+                          style: TextStyle(fontSize: 60)),
+                )
+              ],
+            )));
   }
 }

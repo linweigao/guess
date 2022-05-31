@@ -68,7 +68,7 @@ class GameStore {
 
   static String modeStatus(GameMode mode) {
     if (mode == GameMode.casual) {
-      return "";
+      return "(不计分)";
     }
 
     QuestionSet? set = modeSet[mode]!;

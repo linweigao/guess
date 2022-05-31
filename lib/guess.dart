@@ -68,21 +68,66 @@ class _GuessState extends State<Guess> {
     Share.share(question.question);
   }
 
+  Widget _buildFinishPage(BuildContext context) {
+    return Scaffold(
+        body: Center(
+            child: Text("🎉恭喜你完成了\n$_modeText。",
+                style: Theme.of(context).textTheme.headline3)),
+        floatingActionButton: FloatingActionButton(
+            tooltip: "返回主界面",
+            child: const Icon(Icons.assignment_return_rounded),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
+  }
+
+  Widget _buildQuestionPage(BuildContext context, Question question) {
+    return Stack(
+      children: <Widget>[
+        QuestionWidget(
+          question: question,
+          showHint: _showHint,
+          answerMatch: _onAnswerMatch,
+        ),
+        Align(
+          alignment: Alignment.bottomLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20, bottom: 20),
+            child: FloatingActionButton(
+                onPressed: _onShowHint,
+                tooltip: '去掉一个错误',
+                child: const Icon(Icons.highlight_off, size: 30)),
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: FloatingActionButton(
+                onPressed: _onShare,
+                tooltip: '场外求助',
+                child: const Icon(Icons.ios_share, size: 30)),
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 20, bottom: 20),
+            child: FloatingActionButton(
+                onPressed: _onNext,
+                tooltip: '放弃',
+                child: const Icon(Icons.navigate_next, size: 30)),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_current == questions.length) {
-      return Scaffold(
-          body: Center(
-              child: Text("🎉恭喜你完成了\n$_modeText。",
-                  style: Theme.of(context).textTheme.headline3)),
-          floatingActionButton: FloatingActionButton(
-              tooltip: "返回主界面",
-              child: const Icon(Icons.assignment_return_rounded),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat);
+      return _buildFinishPage(context);
     }
 
     Question current = questions[_current];
@@ -90,36 +135,13 @@ class _GuessState extends State<Guess> {
 
     var body = _showAnswer
         ? Answer(answer: current.answer, mode: current.mode)
-        : QuestionWidget(
-            question: current,
-            showHint: _showHint,
-            answerMatch: _onAnswerMatch,
-          );
+        : _buildQuestionPage(context, current);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(questionMode),
       ),
       body: body,
-      floatingActionButton: FloatingActionButton(
-        onPressed: _onNext,
-        tooltip: 'Next',
-        child: const Icon(Icons.navigate_next),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-          color: Colors.blue,
-          child: Row(
-            children: [
-              IconButton(
-                onPressed: _onShowHint,
-                icon: const Icon(Icons.light),
-                color: _showHint ? Colors.yellow : Colors.grey,
-              ),
-              const Spacer(),
-              IconButton(onPressed: _onShare, icon: const Icon(Icons.share))
-            ],
-          )),
     );
   }
 }
