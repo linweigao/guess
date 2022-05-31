@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class SuggestionList extends StatefulWidget {
-  const SuggestionList(
+class OptionsList extends StatefulWidget {
+  const OptionsList(
       {super.key,
-      required this.answers,
-      required this.onAnswerSubmit,
-      required this.hintAnswer});
+      required this.options,
+      required this.onOptionSubmit,
+      required this.hideOption});
 
-  final List<String> answers;
-  final ValueChanged<String> onAnswerSubmit;
-  final String hintAnswer;
+  final List<String> options;
+  final ValueChanged<String> onOptionSubmit;
+  final String hideOption;
 
   @override
-  State<SuggestionList> createState() => _SuggestionListState();
+  State<OptionsList> createState() => _OptionsListState();
 }
 
-class _SuggestionListState extends State<SuggestionList> {
+class _OptionsListState extends State<OptionsList> {
   _onTap(answer) {
-    if (answer == widget.hintAnswer) {
+    if (answer == widget.hideOption) {
       return;
     }
 
     SystemSound.play(SystemSoundType.click);
-    widget.onAnswerSubmit(answer);
+    widget.onOptionSubmit(answer);
   }
 
   @override
@@ -31,10 +31,10 @@ class _SuggestionListState extends State<SuggestionList> {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 6, mainAxisSpacing: 6, childAspectRatio: (1 / 0.5)),
-      itemCount: widget.answers.length,
+      itemCount: widget.options.length,
       itemBuilder: (BuildContext context, int index) {
-        final answer = widget.answers[index];
-        if (answer == widget.hintAnswer) {
+        final answer = widget.options[index];
+        if (answer == widget.hideOption) {
           return Stack(children: [
             Center(
                 child: Text("X",

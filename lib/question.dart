@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:guess/suggestion_list.dart';
-import 'package:guess/submission_list.dart';
+import 'package:guess/options_list.dart';
+import 'package:guess/submit_list.dart';
 
 import 'data.dart';
 import 'game_store.dart';
@@ -25,9 +25,9 @@ class QuestionWidget extends StatefulWidget {
 }
 
 class _QuestionState extends State<QuestionWidget> {
-  String _answer = "";
-  late List<String> _answerlist;
-  late String _hintAnswer;
+  String _submit = "";
+  late List<String> _optionsList;
+  late String _hideOption;
 
   @override
   void initState() {
@@ -36,11 +36,11 @@ class _QuestionState extends State<QuestionWidget> {
         GameStore.chars, widget.question.answer.characters.toList(), 18);
 
     final r = Random();
-    _hintAnswer = wrongList[r.nextInt(wrongList.length - 1)];
+    _hideOption = wrongList[r.nextInt(wrongList.length - 1)];
 
-    _answerlist = wrongList.toList(growable: true);
-    _answerlist.addAll(widget.question.answer.characters.toSet().toList());
-    _answerlist.shuffle();
+    _optionsList = wrongList.toList(growable: true);
+    _optionsList.addAll(widget.question.answer.characters.toSet().toList());
+    _optionsList.shuffle();
   }
 
   List<String> _getWrongList(
@@ -61,15 +61,15 @@ class _QuestionState extends State<QuestionWidget> {
     return retVal;
   }
 
-  _onAnswerChanged(String newAnswer) {
+  _onSubmitChanged(String newSubmit) {
     setState(() {
-      if (_answer.length < widget.question.answer.length) {
+      if (_submit.length < widget.question.answer.length) {
         // Ignore more submission
-        _answer += newAnswer;
+        _submit += newSubmit;
       }
 
-      if (widget.question.answer.length == _answer.length) {
-        if (widget.question.answer == _answer) {
+      if (widget.question.answer.length == _submit.length) {
+        if (widget.question.answer == _submit) {
           widget.answerMatch();
         } else {
           // Play error sound
@@ -79,17 +79,17 @@ class _QuestionState extends State<QuestionWidget> {
     });
   }
 
-  _onAnswerRemoved() {
-    if (_answer.isNotEmpty) {
+  _onSubmitRemoved() {
+    if (_submit.isNotEmpty) {
       setState(() {
-        _answer = _answer.substring(0, _answer.length - 1);
+        _submit = _submit.substring(0, _submit.length - 1);
       });
     }
   }
 
-  _onAnswerCleared() {
+  _onSubmitCleared() {
     setState(() {
-      _answer = "";
+      _submit = "";
     });
   }
 
@@ -109,18 +109,18 @@ class _QuestionState extends State<QuestionWidget> {
             )),
       ),
       const SizedBox(height: 25),
-      AnswerList(
-        submitAnswer: _answer,
+      SubmitList(
+        submitAnswer: _submit,
         answer: widget.question.answer,
-        onAnswerCleared: _onAnswerCleared,
-        onAnswerRemoved: _onAnswerRemoved,
+        onSubmitCleared: _onSubmitCleared,
+        onSubmitRemoved: _onSubmitRemoved,
       ),
       const SizedBox(height: 25),
       Expanded(
-          child: SuggestionList(
-        answers: _answerlist,
-        onAnswerSubmit: _onAnswerChanged,
-        hintAnswer: widget.showHint ? _hintAnswer : "",
+          child: OptionsList(
+        options: _optionsList,
+        onOptionSubmit: _onSubmitChanged,
+        hideOption: widget.showHint ? _hideOption : "",
       ))
     ]);
   }
