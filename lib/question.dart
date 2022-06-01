@@ -36,7 +36,7 @@ class _QuestionState extends State<QuestionWidget> {
         GameStore.chars, widget.question.answer.characters.toList(), 18);
 
     final r = Random();
-    _hideOption = wrongList[r.nextInt(wrongList.length - 1)];
+    _hideOption = wrongList[r.nextInt(wrongList.length)];
 
     _optionsList = wrongList.toList(growable: true);
     _optionsList.addAll(widget.question.answer.characters.toSet().toList());

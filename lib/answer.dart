@@ -18,7 +18,7 @@ class _AnswerState extends State<Answer> {
       Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.only(left: 20, right: 20),
-        height: 200,
+        height: 150,
         color: Colors.white30,
         child: FittedBox(
             fit: BoxFit.fitWidth,
@@ -31,7 +31,7 @@ class _AnswerState extends State<Answer> {
       Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.only(left: 20, right: 20),
-        height: 200,
+        height: 150,
         color: Colors.white30,
         child: FittedBox(
             fit: BoxFit.fitWidth,

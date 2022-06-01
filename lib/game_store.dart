@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:guess/assets_utils.dart';
 
@@ -18,6 +20,20 @@ class QuestionSet {
 
 class GameStore {
   static final modes = [GameMode.dongman, GameMode.chengyu, GameMode.test];
+  static final correctAnswerTitles = [
+    "你的🧠怎么长的",
+    "聪明绝顶👨‍🦲",
+    "哎呦！不错哦",
+    "你好，学霸"
+  ];
+  static final wrongAnswerTitles = [
+    "可惜，🧠不太聪明的样子",
+    "脑洞要大🤯",
+    "读书是不是有点少",
+    "智商堪忧😱 ",
+    "要不明天再来",
+    "不行的话可以多叫点人"
+  ];
   static final Map<GameMode, QuestionSet> modeSet = <GameMode, QuestionSet>{};
   static List<Question> allQuestions = [];
   static List<String> allAnswered = [];
@@ -91,6 +107,14 @@ class GameStore {
     QuestionSet? set = modeSet[mode]!;
 
     return "${set.answered.length} / ${set.questions.length}";
+  }
+
+  static String correctAnswerTitle() {
+    return correctAnswerTitles[Random().nextInt(correctAnswerTitles.length)];
+  }
+
+  static String wrongAnswerTitle() {
+    return wrongAnswerTitles[Random().nextInt(wrongAnswerTitles.length)];
   }
 
   static resetModeStatus(GameMode mode) async {

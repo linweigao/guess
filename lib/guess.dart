@@ -146,8 +146,8 @@ class _GuessState extends State<Guess> {
     return Scaffold(
         appBar: AppBar(
           title: _answerCorrect
-              ? const Text("恭喜，你的脑洞真大")
-              : const Text("大概你的脑洞不够大吧"),
+              ? Text(GameStore.correctAnswerTitle())
+              : Text(GameStore.wrongAnswerTitle()),
         ),
         body: Stack(
           children: <Widget>[
