@@ -14,7 +14,7 @@ class QuestionSet {
 
   init() async {
     questions = await AssetsUtils.loadQuestion(mode);
-    answered = await AssetsUtils.readSavedStrings(mode);
+    answered = await AssetsUtils.readAnswered(mode);
   }
 }
 
@@ -38,6 +38,8 @@ class GameStore {
   static List<Question> allQuestions = [];
   static List<String> allAnswered = [];
   static List<String> chars = [];
+  static bool freeVisit = false;
+  static bool allVisit = false;
 
   static Future init() async {
     await AssetsUtils.init();
@@ -63,6 +65,13 @@ class GameStore {
         .expand((e) => e.answer.characters.toList())
         .toSet()
         .toList();
+
+    allVisit = AssetsUtils.readVisit(GameMode.all);
+  }
+
+  static setAllVisit() async {
+    allVisit = true;
+    await AssetsUtils.saveVisit(GameMode.all);
   }
 
   static String gameModeText(GameMode mode) {
@@ -123,7 +132,7 @@ class GameStore {
     }
     QuestionSet? set = modeSet[mode]!;
     set.answered.clear();
-    await AssetsUtils.saveStrings(mode, set.answered);
+    await AssetsUtils.saveAnswered(mode, set.answered);
   }
 
   static bool isModeComplete(GameMode mode) {

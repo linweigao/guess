@@ -33,6 +33,7 @@ class _StartScreenState extends State<StartScreen> {
           itemBuilder: (BuildContext context, int index) {
             final mode = GameMode.values[index];
             final isComplete = GameStore.isModeComplete(mode);
+            final modeText = GameStore.gameModeText(mode);
 
             return Container(
                 margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
@@ -46,6 +47,82 @@ class _StartScreenState extends State<StartScreen> {
                 ),
                 child: InkWell(
                     onTap: () async {
+                      if (mode == GameMode.casual) {
+                        showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: Text(modeText,
+                                style: Theme.of(context).textTheme.headline3),
+                            content: Text(
+                                '该模式不记分\n挑战所有题库\n适合多人游玩\n比比谁最聪明\n确认要开始吗？',
+                                style: Theme.of(context).textTheme.headline4),
+                            actions: <Widget>[
+                              Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: IconButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'Cancel'),
+                                    icon: const Icon(Icons.highlight_off,
+                                        size: 40),
+                                  )),
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 10, left: 10, right: 20),
+                                  child: IconButton(
+                                    onPressed: () async {
+                                      Navigator.pop(context, 'OK');
+                                      // ignore: use_build_context_synchronously
+                                      await _navigateGame(context, mode);
+                                    },
+                                    icon: const Icon(
+                                      Icons.check,
+                                      size: 40,
+                                    ),
+                                  )),
+                            ],
+                          ),
+                        );
+                        return;
+                      }
+
+                      if (mode == GameMode.all && !GameStore.allVisit) {
+                        showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: Text(modeText,
+                                style: Theme.of(context).textTheme.headline3),
+                            content: Text('挑战所有题库\n建议上知天文\n下知English\n确认要开始吗？',
+                                style: Theme.of(context).textTheme.headline4),
+                            actions: <Widget>[
+                              Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: IconButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'Cancel'),
+                                    icon: const Icon(Icons.highlight_off,
+                                        size: 40),
+                                  )),
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 10, left: 10, right: 20),
+                                  child: IconButton(
+                                    onPressed: () async {
+                                      Navigator.pop(context, 'OK');
+                                      await GameStore.setAllVisit();
+                                      // ignore: use_build_context_synchronously
+                                      await _navigateGame(context, mode);
+                                    },
+                                    icon: const Icon(
+                                      Icons.check,
+                                      size: 40,
+                                    ),
+                                  )),
+                            ],
+                          ),
+                        );
+                        return;
+                      }
+
                       if (GameStore.isModeComplete(mode)) {
                         showDialog<String>(
                           context: context,

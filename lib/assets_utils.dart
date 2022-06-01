@@ -20,11 +20,24 @@ class AssetsUtils {
     return questions;
   }
 
-  static readSavedStrings(GameMode mode) {
+  static readAnswered(GameMode mode) {
     return _prefs!.getStringList(mode.toString()) ?? [];
   }
 
-  static Future<bool> saveStrings(GameMode mode, List<String> value) async {
+  static Future<bool> saveAnswered(GameMode mode, List<String> value) async {
     return await _prefs!.setStringList(mode.toString(), value);
+  }
+
+  static bool readVisit(GameMode mode) {
+    final visit = _prefs!.getBool("$mode.visit");
+    if (visit == null) {
+      return false;
+    }
+
+    return visit;
+  }
+
+  static Future<bool> saveVisit(GameMode mode) async {
+    return await _prefs!.setBool("$mode.visit", true);
   }
 }

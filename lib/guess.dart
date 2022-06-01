@@ -57,7 +57,7 @@ class _GuessState extends State<Guess> {
         set.answered.add(question.answer);
         GameStore.allAnswered.add(question.answer);
 
-        AssetsUtils.saveStrings(set.mode, set.answered)
+        AssetsUtils.saveAnswered(set.mode, set.answered)
             .then((value) => developer.log("saved:$value"));
       }
 
