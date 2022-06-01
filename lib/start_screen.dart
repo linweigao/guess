@@ -15,6 +15,14 @@ class _StartScreenState extends State<StartScreen> {
   bool _init = false;
   bool _showMenu = false;
 
+  Future _navigateGame(BuildContext context, GameMode mode) async {
+    await Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return Guess(mode: mode);
+    }));
+    setState(() {});
+    return;
+  }
+
   Widget _buildMenu(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text("🤯 脑洞大开  请你挑战 🤯")),
@@ -37,11 +45,44 @@ class _StartScreenState extends State<StartScreen> {
                 ),
                 child: InkWell(
                     onTap: () async {
-                      await Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return Guess(mode: mode);
-                      }));
-                      setState(() {});
+                      if (GameStore.isModeComplete(mode)) {
+                        showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: Text("挑战已完成",
+                                style: Theme.of(context).textTheme.headline3),
+                            content: Text('确认要重新开始吗？',
+                                style: Theme.of(context).textTheme.headline4),
+                            actions: <Widget>[
+                              Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: IconButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'Cancel'),
+                                    icon: const Icon(Icons.highlight_off,
+                                        size: 40),
+                                  )),
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 10, left: 10, right: 20),
+                                  child: IconButton(
+                                    onPressed: () async {
+                                      Navigator.pop(context, 'OK');
+                                      await GameStore.resetModeStatus(mode);
+                                      // ignore: use_build_context_synchronously
+                                      await _navigateGame(context, mode);
+                                    },
+                                    icon: const Icon(
+                                      Icons.check,
+                                      size: 40,
+                                    ),
+                                  )),
+                            ],
+                          ),
+                        );
+                      } else {
+                        await _navigateGame(context, mode);
+                      }
                     },
                     child: Column(children: [
                       Row(

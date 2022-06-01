@@ -39,6 +39,19 @@ class _AnswerState extends State<Answer> {
               style: Theme.of(context).textTheme.headline1,
             )),
       ),
+      widget.question.answerDialog.isNotEmpty
+          ? Expanded(
+              child: Container(
+              padding: const EdgeInsets.only(left: 30, right: 30),
+              child: FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(
+                    widget.question.answerDialog,
+                    style: Theme.of(context).textTheme.headline2,
+                  )),
+            ))
+          : Container(),
+      const SizedBox(height: 100),
     ]);
   }
 }

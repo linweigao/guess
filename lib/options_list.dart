@@ -37,14 +37,11 @@ class _OptionsListState extends State<OptionsList> {
         if (answer == widget.hideOption) {
           return Stack(children: [
             Center(
-                child: Text("X",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline3
-                        ?.merge(const TextStyle(color: Colors.red)))),
+                child: Text(answer,
+                    style: Theme.of(context).textTheme.bodyMedium)),
             Center(
                 child:
-                    Text(answer, style: Theme.of(context).textTheme.bodyMedium))
+                    Text("❌", style: Theme.of(context).textTheme.bodyMedium)),
           ]);
         }
         return InkWell(

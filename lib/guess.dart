@@ -51,13 +51,15 @@ class _GuessState extends State<Guess> {
 
   void _onAnswerMatch() {
     setState(() {
-      final question = questions[_current];
-      QuestionSet set = GameStore.modeSet[question.mode]!;
-      set.answered.add(question.answer);
-      GameStore.allAnswered.add(question.answer);
+      if (widget.mode != GameMode.casual) {
+        final question = questions[_current];
+        QuestionSet set = GameStore.modeSet[question.mode]!;
+        set.answered.add(question.answer);
+        GameStore.allAnswered.add(question.answer);
 
-      AssetsUtils.saveStrings(set.mode, set.answered)
-          .then((value) => developer.log("saved:$value"));
+        AssetsUtils.saveStrings(set.mode, set.answered)
+            .then((value) => developer.log("saved:$value"));
+      }
 
       _showAnswer = true;
       _answerCorrect = true;
@@ -90,7 +92,7 @@ class _GuessState extends State<Guess> {
   }
 
   Widget _buildQuestionPage(BuildContext context, Question question) {
-    final title = GameStore.gameModeText(question.mode);
+    final title = GameStore.gameModeTitle(question.mode);
 
     return Scaffold(
         appBar: AppBar(
@@ -110,7 +112,7 @@ class _GuessState extends State<Guess> {
                 child: FloatingActionButton(
                     onPressed: _onShowHint,
                     tooltip: '去掉一个错误',
-                    child: const Icon(Icons.highlight_off, size: 30)),
+                    child: const Icon(Icons.live_help, size: 30)),
               ),
             ),
             Align(

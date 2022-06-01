@@ -66,6 +66,23 @@ class GameStore {
     }
   }
 
+  static String gameModeTitle(GameMode mode) {
+    switch (mode) {
+      case GameMode.all:
+        return "乱斗挑战";
+      case GameMode.casual:
+        return "休闲模式";
+      case GameMode.chengyu:
+        return "猜一个成语";
+      case GameMode.dongman:
+        return "猜动漫人物";
+      case GameMode.test:
+        return "测试一下";
+      default:
+        return "";
+    }
+  }
+
   static String modeStatus(GameMode mode) {
     if (mode == GameMode.casual) {
       return "(不计分)";
@@ -74,6 +91,15 @@ class GameStore {
     QuestionSet? set = modeSet[mode]!;
 
     return "${set.answered.length} / ${set.questions.length}";
+  }
+
+  static resetModeStatus(GameMode mode) async {
+    if (mode == GameMode.casual) {
+      return;
+    }
+    QuestionSet? set = modeSet[mode]!;
+    set.answered.clear();
+    await AssetsUtils.saveStrings(mode, set.answered);
   }
 
   static bool isModeComplete(GameMode mode) {
