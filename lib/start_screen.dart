@@ -48,7 +48,7 @@ class _StartScreenState extends State<StartScreen> {
                 child: InkWell(
                     onTap: () async {
                       if (mode == GameMode.casual) {
-                        showDialog<String>(
+                        final ok = await showDialog<bool>(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
                             title: Text(modeText,
@@ -61,7 +61,7 @@ class _StartScreenState extends State<StartScreen> {
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: IconButton(
                                     onPressed: () =>
-                                        Navigator.pop(context, 'Cancel'),
+                                        Navigator.pop(context, false),
                                     icon: const Icon(Icons.highlight_off,
                                         size: 40),
                                   )),
@@ -70,9 +70,7 @@ class _StartScreenState extends State<StartScreen> {
                                       bottom: 10, left: 10, right: 20),
                                   child: IconButton(
                                     onPressed: () async {
-                                      Navigator.pop(context, 'OK');
-                                      // ignore: use_build_context_synchronously
-                                      await _navigateGame(context, mode);
+                                      Navigator.pop(context, true);
                                     },
                                     icon: const Icon(
                                       Icons.check,
@@ -82,11 +80,16 @@ class _StartScreenState extends State<StartScreen> {
                             ],
                           ),
                         );
+
+                        if (ok == true) {
+                          // ignore: use_build_context_synchronously
+                          await _navigateGame(context, mode);
+                        }
                         return;
                       }
 
                       if (mode == GameMode.all && !GameStore.allVisit) {
-                        showDialog<String>(
+                        final ok = await showDialog<bool>(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
                             title: Text(modeText,
@@ -98,7 +101,7 @@ class _StartScreenState extends State<StartScreen> {
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: IconButton(
                                     onPressed: () =>
-                                        Navigator.pop(context, 'Cancel'),
+                                        Navigator.pop(context, false),
                                     icon: const Icon(Icons.highlight_off,
                                         size: 40),
                                   )),
@@ -107,10 +110,7 @@ class _StartScreenState extends State<StartScreen> {
                                       bottom: 10, left: 10, right: 20),
                                   child: IconButton(
                                     onPressed: () async {
-                                      Navigator.pop(context, 'OK');
-                                      await GameStore.setAllVisit();
-                                      // ignore: use_build_context_synchronously
-                                      await _navigateGame(context, mode);
+                                      Navigator.pop(context, true);
                                     },
                                     icon: const Icon(
                                       Icons.check,
@@ -120,11 +120,17 @@ class _StartScreenState extends State<StartScreen> {
                             ],
                           ),
                         );
+
+                        if (ok == true) {
+                          await GameStore.setAllVisit();
+                          // ignore: use_build_context_synchronously
+                          await _navigateGame(context, mode);
+                        }
                         return;
                       }
 
                       if (GameStore.isModeComplete(mode)) {
-                        showDialog<String>(
+                        final ok = await showDialog<bool>(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
                             title: Text("挑战已完成",
@@ -136,7 +142,7 @@ class _StartScreenState extends State<StartScreen> {
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: IconButton(
                                     onPressed: () =>
-                                        Navigator.pop(context, 'Cancel'),
+                                        Navigator.pop(context, false),
                                     icon: const Icon(Icons.highlight_off,
                                         size: 40),
                                   )),
@@ -145,10 +151,7 @@ class _StartScreenState extends State<StartScreen> {
                                       bottom: 10, left: 10, right: 20),
                                   child: IconButton(
                                     onPressed: () async {
-                                      Navigator.pop(context, 'OK');
-                                      await GameStore.resetModeStatus(mode);
-                                      // ignore: use_build_context_synchronously
-                                      await _navigateGame(context, mode);
+                                      Navigator.pop(context, true);
                                     },
                                     icon: const Icon(
                                       Icons.check,
@@ -158,6 +161,11 @@ class _StartScreenState extends State<StartScreen> {
                             ],
                           ),
                         );
+                        if (ok == true) {
+                          await GameStore.resetModeStatus(mode);
+                          // ignore: use_build_context_synchronously
+                          await _navigateGame(context, mode);
+                        }
                       } else {
                         await _navigateGame(context, mode);
                       }

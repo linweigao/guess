@@ -24,15 +24,18 @@ class GameStore {
     "你的🧠怎么长的",
     "聪明绝顶👨‍🦲",
     "哎呦！不错哦",
-    "你好，学霸"
+    "你好，学霸",
+    "是不是作弊了？",
+    "好好学习，天天向上"
   ];
   static final wrongAnswerTitles = [
-    "可惜，🧠不太聪明的样子",
+    "不太聪明的样子",
     "脑洞要大🤯",
     "读书是不是有点少",
     "智商堪忧😱 ",
-    "要不明天再来",
-    "不行的话可以多叫点人"
+    "要不明天再来？",
+    "不行的话可以多叫点人",
+    "🐷🧠过载了吗？"
   ];
   static final Map<GameMode, QuestionSet> modeSet = <GameMode, QuestionSet>{};
   static List<Question> allQuestions = [];
