@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:guess/game_store.dart';
 import 'package:guess/guess.dart';
@@ -154,9 +155,21 @@ class _StartScreenState extends State<StartScreen> {
                 Container(
                   alignment: Alignment.center,
                   child: _init
-                      ? const Text("Tap...", style: TextStyle(fontSize: 60))
-                      : const Text("Loading...",
-                          style: TextStyle(fontSize: 60)),
+                      ? DefaultTextStyle(
+                          style: const TextStyle(fontSize: 60),
+                          child: AnimatedTextKit(
+                              onTap: () {
+                                setState(() {
+                                  _showMenu = true;
+                                });
+                              },
+                              displayFullTextOnTap: true,
+                              repeatForever: true,
+                              animatedTexts: [
+                                FlickerAnimatedText("👆🏻",
+                                    speed: const Duration(milliseconds: 1000))
+                              ]))
+                      : const Text("🚥", style: TextStyle(fontSize: 60)),
                 )
               ],
             )));

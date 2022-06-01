@@ -1,39 +1,48 @@
 [
     {
         "question": "🐒👑",
-        "answer": "孙悟空"
+        "answer": "孙悟空",
+        "dialog": "俺老孙来也！"
     },
     {
         "question": "🌺🧍‍♀️🐟",
-        "answer": "美人鱼"
+        "answer": "美人鱼",
+        "dialog": "人类的东西啊？\n好，我来看看。"
     },
     {
         "question": "🥷🐢🐢🐢🐢",
-        "answer": "忍者神龟"
+        "answer": "忍者神龟",
+        "dialog": "The most important traits of a ninja are\nspeed, stealth and precision!"
     },
     {
         "question": "🕵️💊➞👶🏻",
-        "answer": "柯南"
+        "answer": "柯南",
+        "dialog": "真相只有一个"
     },
     {
         "question": "🌀🔥🦊",
-        "answer": "漩涡鸣人"
+        "answer": "漩涡鸣人",
+        "dialog": "看我的S级忍术-色诱术😻💃😻，\n这样你还能猜到吗？"
     },
     {
         "question": "🐸🧝🏼‍♂️😍🧝🏼‍♂️",
-        "answer": "自来也"
+        "answer": "自来也",
+        "dialog": "本大爷就是妙木山的蛤蟆仙人！\n谁污蔑我是好色仙人！"
     },
     {
         "question": "🔥🥷🏼💪🀄️",
-        "answer": "纲手"
+        "answer": "纲手",
+        "dialog": "人因为有难忘的记忆而变得坚强，\n这就是所谓的成长吧。"
     },
     {
         "question": "🍚👨‍🦳🐭",
-        "answer": "米老鼠"
+        "answer": "米老鼠",
+        "dialog": "To laugh yourself is to love yourself!"
     },
     {
         "question": "🍬👨‍🦳🦆",
-        "answer": "唐老鸭"
+        "answer": "唐老鸭",
+        "dialog": "Happiness is the richest thing \nwe will ever own."
     },
     {
         "question": "🪡🐷🦸‍♂️",
@@ -41,7 +50,8 @@
     },
     {
         "question": "🦇🦸🏽‍♂️",
-        "answer": "蝙蝠侠"
+        "answer": "蝙蝠侠",
+        "dialog": "It’s not who you are underneath,\nit’s what you do that defines you."
     },
     {
         "question": "🧽👶",
@@ -49,6 +59,7 @@
     },
     {
         "question": "🐰8️⃣🎼",
-        "answer": "兔八哥"
+        "answer": "兔八哥",
+        "dialog": "嘿，伙计"
     }
 ]

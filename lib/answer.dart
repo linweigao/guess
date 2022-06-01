@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'data.dart';
 
@@ -42,14 +43,22 @@ class _AnswerState extends State<Answer> {
       widget.question.answerDialog.isNotEmpty
           ? Expanded(
               child: Container(
-              padding: const EdgeInsets.only(left: 30, right: 30),
-              child: FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: Text(
-                    widget.question.answerDialog,
-                    style: Theme.of(context).textTheme.headline2,
-                  )),
-            ))
+                  padding: const EdgeInsets.only(left: 30, right: 30),
+                  child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: DefaultTextStyle(
+                          style: const TextStyle(
+                            fontSize: 30.0,
+                          ),
+                          child: AnimatedTextKit(
+                              isRepeatingAnimation: false,
+                              animatedTexts: [
+                                TypewriterAnimatedText(
+                                    widget.question.answerDialog,
+                                    cursor: "",
+                                    speed: const Duration(milliseconds: 100)),
+                              ])))))
           : Container(),
       const SizedBox(height: 100),
     ]);

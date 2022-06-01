@@ -110,6 +110,7 @@ class _GuessState extends State<Guess> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, bottom: 20),
                 child: FloatingActionButton(
+                    heroTag: null,
                     onPressed: _onShowHint,
                     tooltip: '去掉一个错误',
                     child: const Icon(Icons.live_help, size: 30)),
@@ -120,6 +121,7 @@ class _GuessState extends State<Guess> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: FloatingActionButton(
+                    heroTag: null,
                     onPressed: _onShare,
                     tooltip: '场外求助',
                     child: const Icon(Icons.ios_share, size: 30)),
@@ -130,6 +132,7 @@ class _GuessState extends State<Guess> {
               child: Padding(
                 padding: const EdgeInsets.only(right: 20, bottom: 20),
                 child: FloatingActionButton(
+                    heroTag: null,
                     onPressed: _onGiveUp,
                     tooltip: '放弃',
                     child: const Icon(Icons.navigate_next, size: 30)),
@@ -157,6 +160,7 @@ class _GuessState extends State<Guess> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: FloatingActionButton(
+                    heroTag: null,
                     onPressed: _onShare,
                     tooltip: '分享成功',
                     child: const Icon(Icons.ios_share, size: 30)),
@@ -167,6 +171,7 @@ class _GuessState extends State<Guess> {
               child: Padding(
                 padding: const EdgeInsets.only(right: 20, bottom: 20),
                 child: FloatingActionButton(
+                    heroTag: null,
                     onPressed: _onNext,
                     tooltip: '下一题',
                     child: const Icon(Icons.navigate_next, size: 30)),
