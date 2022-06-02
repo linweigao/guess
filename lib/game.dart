@@ -65,7 +65,16 @@ class _GameState extends State<Game> {
 
   void _onShare() {
     final question = questions[_current];
-    Share.share(question.question);
+    if (_answerCorrect) {
+      Share.share(GameStore.shareCorrectAnswer(question));
+    } else {
+      Share.share(GameStore.shareQuestion(question));
+    }
+  }
+
+  void _onShareHelp() {
+    final question = questions[_current];
+    Share.share(GameStore.shareQuestion(question));
   }
 
   Widget _buildQuestionPage(BuildContext context, Question question) {
@@ -99,7 +108,7 @@ class _GameState extends State<Game> {
                 padding: const EdgeInsets.only(bottom: 20),
                 child: FloatingActionButton(
                     heroTag: null,
-                    onPressed: _onShare,
+                    onPressed: _onShareHelp,
                     tooltip: '场外求助',
                     child: const Icon(Icons.ios_share, size: 30)),
               ),

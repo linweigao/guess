@@ -38,6 +38,16 @@ class GameStore {
     "不行的话可以多叫点人",
     "🐷🧠过载了吗？"
   ];
+  static final shareQuestionTexts = [
+    "【🤯脑洞大开】求助！这个题目【{question}{guess}】是什么啊？",
+    "【🤯脑洞大开】在线等：题目【{question}{guess}】太变态了！",
+    "【🤯脑洞大开】求大神：神仙题目【{question}{guess}】猜不出来！",
+  ];
+  static final shareCorrectAnswerTexts = [
+    "【🤯脑洞大开】这题目【{question}{guess}】，so easy！",
+    "【🤯脑洞大开】就这就这，【{question}{guess}】！",
+    "【🤯脑洞大开】炸鱼【{question}{guess}】这有什么难的！",
+  ];
   static final Map<GameMode, QuestionSet> modeSet = <GameMode, QuestionSet>{};
   static List<Question> allQuestions = [];
   static List<String> chars = [];
@@ -120,6 +130,19 @@ class GameStore {
     QuestionSet? set = modeSet[mode]!;
 
     return "${set.corrects.length} / ${set.questions.length}";
+  }
+
+  static String shareQuestion(Question question) {
+    return shareQuestionTexts[Random().nextInt(shareQuestionTexts.length)]
+        .replaceFirst("{question}", question.question)
+        .replaceFirst("{guess}", gameModeTitle(question.mode));
+  }
+
+  static String shareCorrectAnswer(Question question) {
+    return shareCorrectAnswerTexts[
+            Random().nextInt(shareCorrectAnswerTexts.length)]
+        .replaceFirst("{question}", question.question)
+        .replaceFirst("{guess}", gameModeTitle(question.mode));
   }
 
   static String correctAnswerTitle() {
