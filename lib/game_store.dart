@@ -21,7 +21,12 @@ class QuestionSet {
 }
 
 class GameStore {
-  static final modes = [GameMode.dongman, GameMode.chengyu, GameMode.test];
+  static final modes = [
+    GameMode.dongman,
+    GameMode.chengyu,
+    GameMode.renwu,
+    GameMode.test
+  ];
   static final correctAnswerTitles = [
     "你的🧠怎么长的",
     "聪明绝顶👨‍🦲",
@@ -98,6 +103,8 @@ class GameStore {
         return "成语挑战";
       case GameMode.dongman:
         return "动漫挑战";
+      case GameMode.renwu:
+        return "历史人物";
       case GameMode.test:
         return "测试挑战";
       default:
@@ -115,6 +122,8 @@ class GameStore {
         return "猜一个成语";
       case GameMode.dongman:
         return "猜动漫人物";
+      case GameMode.renwu:
+        return "猜历史人物";
       case GameMode.test:
         return "测试一下";
       default:

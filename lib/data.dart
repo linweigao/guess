@@ -3,6 +3,7 @@ enum GameMode {
   all,
   dongman,
   chengyu,
+  renwu,
   test,
 }
 
