@@ -47,7 +47,7 @@ class _StartScreenState extends State<StartScreen> {
                 ),
                 child: InkWell(
                     onTap: () async {
-                      if (mode == GameMode.casual) {
+                      if (mode == GameMode.free) {
                         final ok = await showDialog<bool>(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(

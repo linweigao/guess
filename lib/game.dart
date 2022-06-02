@@ -31,9 +31,15 @@ class _GameState extends State<Game> {
   }
 
   void _onGiveUp() {
+    final question = questions[_current];
+    GameStore.increaseErrorModeStatus(widget.mode, question);
+
+    if (widget.mode != GameMode.free) {
+      _onNext();
+      return;
+    }
+
     setState(() {
-      final question = questions[_current];
-      GameStore.increaseErrorModeStatus(widget.mode, question);
       _showAnswer = true;
       _answerCorrect = false;
     });
@@ -43,6 +49,7 @@ class _GameState extends State<Game> {
     setState(() {
       _showAnswer = false;
       _answerCorrect = false;
+      _showHint = false;
       _current++;
     });
   }

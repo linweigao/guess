@@ -1,5 +1,5 @@
 enum GameMode {
-  casual,
+  free,
   all,
   dongman,
   chengyu,

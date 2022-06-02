@@ -74,11 +74,11 @@ class GameStore {
     allSet.errors = await AssetsUtils.readErrorAnswered(GameMode.all);
     modeSet[GameMode.all] = allSet;
 
-    var freeSet = QuestionSet(GameMode.casual);
+    var freeSet = QuestionSet(GameMode.free);
     freeSet.questions = allQuestions;
     freeSet.corrects = [];
     freeSet.errors = [];
-    modeSet[GameMode.casual] = freeSet;
+    modeSet[GameMode.free] = freeSet;
 
     chars = allQuestions
         .expand((e) => e.answer.characters.toList())
@@ -97,7 +97,7 @@ class GameStore {
     switch (mode) {
       case GameMode.all:
         return "乱斗挑战";
-      case GameMode.casual:
+      case GameMode.free:
         return "休闲模式";
       case GameMode.chengyu:
         return "成语挑战";
@@ -116,7 +116,7 @@ class GameStore {
     switch (mode) {
       case GameMode.all:
         return "乱斗挑战";
-      case GameMode.casual:
+      case GameMode.free:
         return "休闲模式";
       case GameMode.chengyu:
         return "猜一个成语";
@@ -132,7 +132,7 @@ class GameStore {
   }
 
   static String modeStatus(GameMode mode) {
-    if (mode == GameMode.casual) {
+    if (mode == GameMode.free) {
       return "(不计分)";
     }
 
@@ -163,7 +163,7 @@ class GameStore {
   }
 
   static resetModeStatus(GameMode mode) async {
-    if (mode == GameMode.casual) {
+    if (mode == GameMode.free) {
       return;
     }
     QuestionSet set = modeSet[mode]!;
@@ -177,7 +177,7 @@ class GameStore {
     QuestionSet set = modeSet[mode]!;
     set.corrects.add(question.answer);
 
-    if (mode == GameMode.casual) {
+    if (mode == GameMode.free) {
       return;
     }
     AssetsUtils.saveCorrectAnswered(mode, set.corrects).then((value) => {});
@@ -187,7 +187,7 @@ class GameStore {
     QuestionSet set = modeSet[mode]!;
     set.errors.add(question.answer);
 
-    if (mode == GameMode.casual) {
+    if (mode == GameMode.free) {
       return;
     }
     AssetsUtils.saveErrorAnswered(mode, set.errors).then((value) => {});
