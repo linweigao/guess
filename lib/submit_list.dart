@@ -29,6 +29,10 @@ class _SubmitListState extends State<SubmitList> {
   @override
   Widget build(BuildContext context) {
     final answer = widget.answer.characters.toList();
+    double width = 80;
+    if (widget.answer.length == 5) {
+      width = 60;
+    }
 
     return SizedBox(
         height: 90,
@@ -58,7 +62,7 @@ class _SubmitListState extends State<SubmitList> {
                 decoration: BoxDecoration(
                     border: Border.all(
                         width: 2, color: Color(Colors.yellow.value))),
-                width: 80,
+                width: width,
                 child: FittedBox(child: Text(answerChar)));
           },
         ));
