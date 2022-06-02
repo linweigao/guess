@@ -1,41 +1,39 @@
 import 'package:flutter/material.dart';
-import 'dart:developer' as developer;
-
-import 'package:guess/data.dart';
-import 'package:guess/game_store.dart';
+import 'package:guess/answer.dart';
+import 'package:guess/game_end.dart';
 import 'package:guess/question.dart';
 import 'package:share_plus/share_plus.dart';
 
-import 'answer.dart';
-import 'assets_utils.dart';
+import 'data.dart';
+import 'game_store.dart';
 
-class Guess extends StatefulWidget {
+class Game extends StatefulWidget {
   final GameMode mode;
 
-  const Guess({Key? key, required this.mode}) : super(key: key);
+  const Game({Key? key, required this.mode}) : super(key: key);
 
   @override
-  State<Guess> createState() => _GuessState();
+  State<Game> createState() => _GameState();
 }
 
-class _GuessState extends State<Guess> {
+class _GameState extends State<Game> {
   late List<Question> questions;
   int _current = 0;
   bool _showAnswer = false;
   bool _answerCorrect = false;
   bool _showHint = false;
-  String _modeText = "";
 
   @override
   void initState() {
     super.initState();
     questions = GameStore.loadQuestion(widget.mode);
     questions.shuffle();
-    _modeText = GameStore.gameModeText(widget.mode);
   }
 
   void _onGiveUp() {
     setState(() {
+      final question = questions[_current];
+      GameStore.increaseErrorModeStatus(widget.mode, question);
       _showAnswer = true;
       _answerCorrect = false;
     });
@@ -51,15 +49,8 @@ class _GuessState extends State<Guess> {
 
   void _onAnswerMatch() {
     setState(() {
-      if (widget.mode != GameMode.casual) {
-        final question = questions[_current];
-        QuestionSet set = GameStore.modeSet[question.mode]!;
-        set.answered.add(question.answer);
-        GameStore.allAnswered.add(question.answer);
-
-        AssetsUtils.saveAnswered(set.mode, set.answered)
-            .then((value) => developer.log("saved:$value"));
-      }
+      final question = questions[_current];
+      GameStore.increaseCorrectModeStatus(widget.mode, question);
 
       _showAnswer = true;
       _answerCorrect = true;
@@ -75,20 +66,6 @@ class _GuessState extends State<Guess> {
   void _onShare() {
     final question = questions[_current];
     Share.share(question.question);
-  }
-
-  Widget _buildFinishPage(BuildContext context) {
-    return Scaffold(
-        body: Center(
-            child: Text("🎉恭喜你完成了\n$_modeText。",
-                style: Theme.of(context).textTheme.headline3)),
-        floatingActionButton: FloatingActionButton(
-            tooltip: "返回主界面",
-            child: const Icon(Icons.assignment_return_rounded),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
   }
 
   Widget _buildQuestionPage(BuildContext context, Question question) {
@@ -143,17 +120,24 @@ class _GuessState extends State<Guess> {
   }
 
   Widget _buildAnswerPage(BuildContext context, Question question) {
+    final title = _answerCorrect
+        ? GameStore.correctAnswerTitle()
+        : GameStore.wrongAnswerTitle();
+
+    final dialog = _answerCorrect
+        ? GameStore.correctAnswerTitle()
+        : GameStore.wrongAnswerTitle();
+
     return Scaffold(
         appBar: AppBar(
-          title: _answerCorrect
-              ? Text(GameStore.correctAnswerTitle())
-              : Text(GameStore.wrongAnswerTitle()),
+          title: Text(title),
         ),
         body: Stack(
           children: <Widget>[
             Answer(
               question: question,
               correct: _answerCorrect,
+              defaultDialg: dialog,
             ),
             Align(
               alignment: Alignment.bottomCenter,
@@ -184,7 +168,7 @@ class _GuessState extends State<Guess> {
   @override
   Widget build(BuildContext context) {
     if (_current == questions.length) {
-      return _buildFinishPage(context);
+      return GameEnd(mode: widget.mode);
     }
 
     Question current = questions[_current];

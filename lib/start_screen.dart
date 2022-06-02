@@ -1,7 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:guess/game_store.dart';
-import 'package:guess/guess.dart';
+import 'package:guess/game.dart';
 
 import 'data.dart';
 
@@ -18,7 +18,7 @@ class _StartScreenState extends State<StartScreen> {
 
   Future _navigateGame(BuildContext context, GameMode mode) async {
     await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return Guess(mode: mode);
+      return Game(mode: mode);
     }));
     setState(() {});
     return;
