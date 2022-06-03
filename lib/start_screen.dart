@@ -34,6 +34,7 @@ class _StartScreenState extends State<StartScreen> {
             final mode = GameMode.values[index];
             final isComplete = GameStore.isModeComplete(mode);
             final modeText = GameStore.gameModeText(mode);
+            final modeStyle = Theme.of(context).textTheme.headline3;
 
             return Container(
                 margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
@@ -46,157 +47,156 @@ class _StartScreenState extends State<StartScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: InkWell(
-                    onTap: () async {
-                      if (mode == GameMode.free) {
-                        final ok = await showDialog<bool>(
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                            title: Text(modeText,
-                                style: Theme.of(context).textTheme.headline3),
-                            content: Text(
-                                '该模式不记分\n挑战所有题库\n适合多人游玩\n比比谁最聪明\n确认要开始吗？',
-                                style: Theme.of(context).textTheme.headline4),
-                            actions: <Widget>[
-                              Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: IconButton(
-                                    onPressed: () =>
-                                        Navigator.pop(context, false),
-                                    icon: const Icon(Icons.highlight_off,
-                                        size: 40),
-                                  )),
-                              Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 10, left: 10, right: 20),
-                                  child: IconButton(
-                                    onPressed: () async {
-                                      Navigator.pop(context, true);
-                                    },
-                                    icon: const Icon(
-                                      Icons.check,
-                                      size: 40,
-                                    ),
-                                  )),
-                            ],
-                          ),
-                        );
+                  onTap: () async {
+                    if (mode == GameMode.free) {
+                      final ok = await showDialog<bool>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: Text(modeText,
+                              style: Theme.of(context).textTheme.headline3),
+                          content: Text(
+                              '该模式不记分\n挑战所有题库\n适合多人游玩\n比比谁最聪明\n确认要开始吗？',
+                              style: Theme.of(context).textTheme.headline4),
+                          actions: <Widget>[
+                            Padding(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: IconButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, false),
+                                  icon:
+                                      const Icon(Icons.highlight_off, size: 40),
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, left: 10, right: 20),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    Navigator.pop(context, true);
+                                  },
+                                  icon: const Icon(
+                                    Icons.check,
+                                    size: 40,
+                                  ),
+                                )),
+                          ],
+                        ),
+                      );
 
-                        if (ok == true) {
-                          // ignore: use_build_context_synchronously
-                          await _navigateGame(context, mode);
-                        }
-                        return;
-                      }
-
-                      if (mode == GameMode.all && !GameStore.allVisit) {
-                        final ok = await showDialog<bool>(
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                            title: Text(modeText,
-                                style: Theme.of(context).textTheme.headline3),
-                            content: Text('挑战所有题库\n建议上知天文\n下知English\n确认要开始吗？',
-                                style: Theme.of(context).textTheme.headline4),
-                            actions: <Widget>[
-                              Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: IconButton(
-                                    onPressed: () =>
-                                        Navigator.pop(context, false),
-                                    icon: const Icon(Icons.highlight_off,
-                                        size: 40),
-                                  )),
-                              Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 10, left: 10, right: 20),
-                                  child: IconButton(
-                                    onPressed: () async {
-                                      Navigator.pop(context, true);
-                                    },
-                                    icon: const Icon(
-                                      Icons.check,
-                                      size: 40,
-                                    ),
-                                  )),
-                            ],
-                          ),
-                        );
-
-                        if (ok == true) {
-                          await GameStore.setAllVisit();
-                          // ignore: use_build_context_synchronously
-                          await _navigateGame(context, mode);
-                        }
-                        return;
-                      }
-
-                      if (GameStore.isModeComplete(mode)) {
-                        final ok = await showDialog<bool>(
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                            title: Text("挑战已完成",
-                                style: Theme.of(context).textTheme.headline3),
-                            content: Text('确认要重新挑战错误题目吗？',
-                                style: Theme.of(context).textTheme.headline4),
-                            actions: <Widget>[
-                              Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: IconButton(
-                                    onPressed: () =>
-                                        Navigator.pop(context, false),
-                                    icon: const Icon(Icons.highlight_off,
-                                        size: 40),
-                                  )),
-                              Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 10, left: 10, right: 20),
-                                  child: IconButton(
-                                    onPressed: () async {
-                                      Navigator.pop(context, true);
-                                    },
-                                    icon: const Icon(
-                                      Icons.check,
-                                      size: 40,
-                                    ),
-                                  )),
-                            ],
-                          ),
-                        );
-                        if (ok == true) {
-                          await GameStore.resetErroreStatus(mode);
-                          // ignore: use_build_context_synchronously
-                          await _navigateGame(context, mode);
-                        }
-                      } else {
+                      if (ok == true) {
+                        // ignore: use_build_context_synchronously
                         await _navigateGame(context, mode);
                       }
-                    },
-                    child: Column(children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 10),
-                              child: Text(
-                                GameStore.gameModeText(mode),
-                                style: Theme.of(context).textTheme.headline3,
-                                textAlign: TextAlign.center,
-                              )),
-                          Text(GameStore.modeStatus(mode),
-                              style: Theme.of(context).textTheme.bodyMedium),
-                          const Spacer(),
-                          isComplete
-                              ? Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: Icon(
-                                    Icons.assignment_turned_in_sharp,
+                      return;
+                    }
+
+                    if (mode == GameMode.all && !GameStore.allVisit) {
+                      final ok = await showDialog<bool>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: Text(modeText,
+                              style: Theme.of(context).textTheme.headline3),
+                          content: Text('挑战所有题库\n建议上知天文\n下知English\n确认要开始吗？',
+                              style: Theme.of(context).textTheme.headline4),
+                          actions: <Widget>[
+                            Padding(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: IconButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, false),
+                                  icon:
+                                      const Icon(Icons.highlight_off, size: 40),
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, left: 10, right: 20),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    Navigator.pop(context, true);
+                                  },
+                                  icon: const Icon(
+                                    Icons.check,
                                     size: 40,
-                                    color: Colors.yellow.shade200,
-                                  ))
-                              : Container()
-                        ],
-                      ),
-                    ])));
+                                  ),
+                                )),
+                          ],
+                        ),
+                      );
+
+                      if (ok == true) {
+                        await GameStore.setAllVisit();
+                        // ignore: use_build_context_synchronously
+                        await _navigateGame(context, mode);
+                      }
+                      return;
+                    }
+
+                    if (GameStore.isModeComplete(mode)) {
+                      final ok = await showDialog<bool>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: Text("挑战已完成",
+                              style: Theme.of(context).textTheme.headline3),
+                          content: Text('确认要重新挑战错误题目吗？',
+                              style: Theme.of(context).textTheme.headline4),
+                          actions: <Widget>[
+                            Padding(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: IconButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, false),
+                                  icon:
+                                      const Icon(Icons.highlight_off, size: 40),
+                                )),
+                            Padding(
+                                padding: const EdgeInsets.only(
+                                    bottom: 10, left: 10, right: 20),
+                                child: IconButton(
+                                  onPressed: () async {
+                                    Navigator.pop(context, true);
+                                  },
+                                  icon: const Icon(
+                                    Icons.check,
+                                    size: 40,
+                                  ),
+                                )),
+                          ],
+                        ),
+                      );
+                      if (ok == true) {
+                        await GameStore.resetErroreStatus(mode);
+                        // ignore: use_build_context_synchronously
+                        await _navigateGame(context, mode);
+                      }
+                    } else {
+                      await _navigateGame(context, mode);
+                    }
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: Text(
+                            modeText,
+                            style: modeStyle,
+                            textAlign: TextAlign.center,
+                          )),
+                      Text(GameStore.modeStatus(mode),
+                          style: Theme.of(context).textTheme.bodyMedium),
+                      const Spacer(),
+                      isComplete
+                          ? const Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: Icon(
+                                Icons.assignment_turned_in_sharp,
+                                size: 40,
+                                color: Colors.yellow,
+                              ))
+                          : Container(),
+                      const SizedBox(height: 70)
+                    ],
+                  ),
+                ));
           },
         ));
   }

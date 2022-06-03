@@ -116,9 +116,9 @@ class GameStore {
       case GameMode.renwu:
         return "历史人物";
       case GameMode.anime:
-        return "Japan Animes";
+        return "Animes";
       case GameMode.movie:
-        return "Famous Movies";
+        return "Movies";
       case GameMode.test:
         return "测试挑战";
       default:
@@ -181,7 +181,7 @@ class GameStore {
   }
 
   static bool isEnglishMode(GameMode mode) {
-    if (mode == GameMode.anime) {
+    if (mode == GameMode.anime || mode == GameMode.movie) {
       return true;
     }
 
@@ -190,13 +190,13 @@ class GameStore {
 
   static resetErroreStatus(GameMode mode) async {
     QuestionSet set = modeSet[mode]!;
-    set.corrects.clear();
+    set.errors.clear();
 
     if (mode == GameMode.free) {
       return;
     }
 
-    await AssetsUtils.saveCorrectAnswered(mode, set.corrects);
+    await AssetsUtils.saveErrorAnswered(mode, set.corrects);
   }
 
   static increaseCorrectModeStatus(GameMode mode, Question question) {

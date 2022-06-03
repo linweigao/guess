@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:guess/boxed_text.dart';
 import 'data.dart';
 
 class Answer extends StatelessWidget {
@@ -19,32 +20,12 @@ class Answer extends StatelessWidget {
         "$correctText\n${question.answerDialog.isNotEmpty ? question.answerDialog : defaultDialg}";
 
     return Column(children: [
-      Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.only(left: 20, right: 20),
-        height: 150,
-        color: Colors.white30,
-        child: FittedBox(
-            fit: BoxFit.fitWidth,
-            child: Text(
-              question.question,
-              style: Theme.of(context).textTheme.headline1,
-            )),
-      ),
+      BoxedText(text: question.question, height: 150),
       const SizedBox(height: 25),
-      Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.only(left: 20, right: 20),
-        height: 150,
-        color: Colors.white30,
-        child: FittedBox(
-            fit: BoxFit.fitWidth,
-            child: Text(
-              question.answer,
-              style: Theme.of(context).textTheme.headline1,
-            )),
-      ),
-      Expanded(
+      BoxedText(text: question.answer, height: 150),
+      const SizedBox(height: 50),
+      FittedBox(
+          fit: BoxFit.fitHeight,
           child: Container(
               padding: const EdgeInsets.only(left: 30, right: 30),
               child: FittedBox(

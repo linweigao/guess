@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:guess/options_list.dart';
 import 'package:guess/submit_list.dart';
+import 'package:guess/boxed_text.dart';
 
 import 'data.dart';
 import 'game_store.dart';
@@ -38,17 +39,19 @@ class _QuestionState extends State<QuestionWidget> {
 
     _isEnglish = GameStore.isEnglishMode(widget.question.mode);
     _answers = _isEnglish
-        ? widget.question.answer.split(" ").toSet().toList()
-        : widget.question.answer.characters.toSet().toList();
+        ? widget.question.answer.split(" ")
+        : widget.question.answer.characters.toList();
+
+    final uniqueAnswers = _answers.toSet().toList();
     final wrongList = _isEnglish
-        ? _getWrongList(GameStore.englishWords, _answers, 18)
-        : _getWrongList(GameStore.chineseWords, _answers, 18);
+        ? _getWrongList(GameStore.englishWords, uniqueAnswers, 18)
+        : _getWrongList(GameStore.chineseWords, uniqueAnswers, 18);
 
     final r = Random();
     _hideOption = wrongList[r.nextInt(wrongList.length)];
 
     _optionsList = wrongList.toList(growable: true);
-    _optionsList.addAll(_answers);
+    _optionsList.addAll(uniqueAnswers);
     _optionsList.shuffle();
   }
 
@@ -72,7 +75,7 @@ class _QuestionState extends State<QuestionWidget> {
 
   _onSubmitTapped(String newSubmit) {
     setState(() {
-      if (_submit.length < widget.question.answer.length) {
+      if (_submit.length < _answers.length) {
         // Ignore more submission
         _submit.add(newSubmit);
       }
@@ -105,18 +108,7 @@ class _QuestionState extends State<QuestionWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.only(left: 20, right: 20),
-        height: 300,
-        color: Colors.white30,
-        child: FittedBox(
-            fit: BoxFit.fitWidth,
-            child: Text(
-              widget.question.question,
-              style: Theme.of(context).textTheme.headline1,
-            )),
-      ),
+      BoxedText(text: widget.question.question, height: 300),
       const SizedBox(height: 25),
       SubmitList(
         submitAnswer: _submit,
