@@ -94,6 +94,7 @@ class _GameState extends State<Game> {
         body: Stack(
           children: <Widget>[
             QuestionWidget(
+              key: Key(_current.toString()),
               question: question,
               showHint: _showHint,
               answerMatch: _onAnswerMatch,
@@ -151,6 +152,7 @@ class _GameState extends State<Game> {
         body: Stack(
           children: <Widget>[
             Answer(
+              key: Key(_current.toString()),
               question: question,
               correct: _answerCorrect,
               defaultDialg: dialog,

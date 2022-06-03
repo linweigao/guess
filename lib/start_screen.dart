@@ -135,7 +135,7 @@ class _StartScreenState extends State<StartScreen> {
                           builder: (BuildContext context) => AlertDialog(
                             title: Text("挑战已完成",
                                 style: Theme.of(context).textTheme.headline3),
-                            content: Text('确认要重新开始吗？',
+                            content: Text('确认要重新挑战错误题目吗？',
                                 style: Theme.of(context).textTheme.headline4),
                             actions: <Widget>[
                               Padding(
@@ -162,7 +162,7 @@ class _StartScreenState extends State<StartScreen> {
                           ),
                         );
                         if (ok == true) {
-                          await GameStore.resetModeStatus(mode);
+                          await GameStore.resetErroreStatus(mode);
                           // ignore: use_build_context_synchronously
                           await _navigateGame(context, mode);
                         }

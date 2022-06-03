@@ -8,8 +8,8 @@ class SubmitList extends StatefulWidget {
       required this.onSubmitCleared,
       required this.onSubmitRemoved});
 
-  final String submitAnswer;
-  final String answer;
+  final List<String> submitAnswer;
+  final List<String> answer;
   final Function onSubmitRemoved;
   final Function onSubmitCleared;
 
@@ -28,7 +28,7 @@ class _SubmitListState extends State<SubmitList> {
 
   @override
   Widget build(BuildContext context) {
-    final answer = widget.answer.characters.toList();
+    final answer = widget.answer.toList();
     double width = 80;
     if (widget.answer.length == 5) {
       width = 60;

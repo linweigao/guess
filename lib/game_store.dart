@@ -25,6 +25,7 @@ class GameStore {
     GameMode.dongman,
     GameMode.chengyu,
     GameMode.renwu,
+    GameMode.anime,
     GameMode.test
   ];
   static final correctAnswerTitles = [
@@ -55,7 +56,8 @@ class GameStore {
   ];
   static final Map<GameMode, QuestionSet> modeSet = <GameMode, QuestionSet>{};
   static List<Question> allQuestions = [];
-  static List<String> chars = [];
+  static List<String> chineseWords = [];
+  static List<String> englishWords = [];
   static bool freeVisit = false;
   static bool allVisit = false;
 
@@ -80,8 +82,15 @@ class GameStore {
     freeSet.errors = [];
     modeSet[GameMode.free] = freeSet;
 
-    chars = allQuestions
+    chineseWords = allQuestions
+        .where((q) => !isEnglishMode(q.mode))
         .expand((e) => e.answer.characters.toList())
+        .toSet()
+        .toList();
+
+    englishWords = allQuestions
+        .where((q) => isEnglishMode(q.mode))
+        .expand((e) => e.answer.split(" "))
         .toSet()
         .toList();
 
@@ -105,6 +114,8 @@ class GameStore {
         return "动漫挑战";
       case GameMode.renwu:
         return "历史人物";
+      case GameMode.anime:
+        return "Anime";
       case GameMode.test:
         return "测试挑战";
       default:
@@ -124,6 +135,8 @@ class GameStore {
         return "猜动漫人物";
       case GameMode.renwu:
         return "猜历史人物";
+      case GameMode.anime:
+        return "Guess an Anime";
       case GameMode.test:
         return "测试一下";
       default:
@@ -162,15 +175,23 @@ class GameStore {
     return wrongAnswerTitles[Random().nextInt(wrongAnswerTitles.length)];
   }
 
-  static resetModeStatus(GameMode mode) async {
+  static bool isEnglishMode(GameMode mode) {
+    if (mode == GameMode.anime) {
+      return true;
+    }
+
+    return false;
+  }
+
+  static resetErroreStatus(GameMode mode) async {
+    QuestionSet set = modeSet[mode]!;
+    set.corrects.clear();
+
     if (mode == GameMode.free) {
       return;
     }
-    QuestionSet set = modeSet[mode]!;
-    set.corrects.clear();
-    set.errors.clear();
+
     await AssetsUtils.saveCorrectAnswered(mode, set.corrects);
-    await AssetsUtils.saveErrorAnswered(mode, set.errors);
   }
 
   static increaseCorrectModeStatus(GameMode mode, Question question) {

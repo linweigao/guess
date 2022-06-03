@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:guess/options_list.dart';
@@ -25,21 +26,29 @@ class QuestionWidget extends StatefulWidget {
 }
 
 class _QuestionState extends State<QuestionWidget> {
-  String _submit = "";
+  final List<String> _submit = [];
+  late List<String> _answers;
   late List<String> _optionsList;
   late String _hideOption;
+  late bool _isEnglish;
 
   @override
   void initState() {
     super.initState();
-    final wrongList = _getWrongList(
-        GameStore.chars, widget.question.answer.characters.toList(), 18);
+
+    _isEnglish = GameStore.isEnglishMode(widget.question.mode);
+    _answers = _isEnglish
+        ? widget.question.answer.split(" ").toSet().toList()
+        : widget.question.answer.characters.toSet().toList();
+    final wrongList = _isEnglish
+        ? _getWrongList(GameStore.englishWords, _answers, 18)
+        : _getWrongList(GameStore.chineseWords, _answers, 18);
 
     final r = Random();
     _hideOption = wrongList[r.nextInt(wrongList.length)];
 
     _optionsList = wrongList.toList(growable: true);
-    _optionsList.addAll(widget.question.answer.characters.toSet().toList());
+    _optionsList.addAll(_answers);
     _optionsList.shuffle();
   }
 
@@ -61,15 +70,15 @@ class _QuestionState extends State<QuestionWidget> {
     return retVal;
   }
 
-  _onSubmitChanged(String newSubmit) {
+  _onSubmitTapped(String newSubmit) {
     setState(() {
       if (_submit.length < widget.question.answer.length) {
         // Ignore more submission
-        _submit += newSubmit;
+        _submit.add(newSubmit);
       }
 
-      if (widget.question.answer.length == _submit.length) {
-        if (widget.question.answer == _submit) {
+      if (_answers.length == _submit.length) {
+        if (const ListEquality().equals(_answers, _submit)) {
           widget.answerMatch();
         } else {
           // Play error sound
@@ -82,14 +91,14 @@ class _QuestionState extends State<QuestionWidget> {
   _onSubmitRemoved() {
     if (_submit.isNotEmpty) {
       setState(() {
-        _submit = _submit.substring(0, _submit.length - 1);
+        _submit.removeLast();
       });
     }
   }
 
   _onSubmitCleared() {
     setState(() {
-      _submit = "";
+      _submit.clear();
     });
   }
 
@@ -111,7 +120,7 @@ class _QuestionState extends State<QuestionWidget> {
       const SizedBox(height: 25),
       SubmitList(
         submitAnswer: _submit,
-        answer: widget.question.answer,
+        answer: _answers,
         onSubmitCleared: _onSubmitCleared,
         onSubmitRemoved: _onSubmitRemoved,
       ),
@@ -119,7 +128,7 @@ class _QuestionState extends State<QuestionWidget> {
       Expanded(
           child: OptionsList(
         options: _optionsList,
-        onOptionSubmit: _onSubmitChanged,
+        onOptionSubmit: _onSubmitTapped,
         hideOption: widget.showHint ? _hideOption : "",
       ))
     ]);
