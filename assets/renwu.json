@@ -2,7 +2,7 @@
     {
         "question": "🐷🧍‍♂️✨",
         "answer": "诸葛亮",
-        "dialog": "臣本布衣，\n躬耕于南阳"
+        "dialog": "臣本布衣，\n躬耕于南阳。"
     },
     {
         "question": "🎹▶️🤴",
@@ -12,12 +12,12 @@
     {
         "question": "🌙🪂",
         "answer": "岳飞",
-        "dialog": "三十功名尘与土，\n八千里路云和月"
+        "dialog": "三十功名尘与土，\n八千里路云和月。"
     },
     {
         "question": "🌊🟪🦷",
         "answer": "姜子牙",
-        "dialog": "姜太公钓鱼🎣，\n愿者上钩"
+        "dialog": "姜太公钓鱼🎣，\n愿者上钩。"
     },
     {
         "question": "🐎🖼🤕",
@@ -32,7 +32,7 @@
     {
         "question": "🔲🏠E",
         "answer": "白居易",
-        "dialog": "洛阳纸贵，\n白居不易"
+        "dialog": "洛阳纸贵，\n白居不易。"
     },
     {
         "question": "🥣⭐️🏃🏼‍♂️",
@@ -73,6 +73,26 @@
         "question": "🌬🅱️💔",
         "answer": "忽必烈",
         "dialog": "要让青草覆盖的地方\n都成为我的牧马之地。"
+    },
+    {
+        "question": "🕳🟪",
+        "answer": "孔子",
+        "dialog": "有朋自远方来，\n不亦乐乎？"
+    },
+    {
+        "question": "🧲🎉",
+        "answer": "慈禧",
+        "dialog": "垂帘听政"
+    },
+    {
+        "question": "🧲🪵🪡",
+        "answer": "铁木真",
+        "dialog": "一代天骄成吉思汗，\n只识弯弓射大雕。"
+    },
+    {
+        "question": "📜☁️🪂",
+        "answer": "文天祥",
+        "dialog": "人生自古谁无死，\n留取丹心照汗青。"
     },
     {
         "question": "🪵🟪🔲",
