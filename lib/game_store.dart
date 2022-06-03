@@ -26,6 +26,7 @@ class GameStore {
     GameMode.chengyu,
     GameMode.renwu,
     GameMode.anime,
+    GameMode.movie,
     GameMode.test
   ];
   static final correctAnswerTitles = [
@@ -115,7 +116,9 @@ class GameStore {
       case GameMode.renwu:
         return "历史人物";
       case GameMode.anime:
-        return "Anime";
+        return "Japan Animes";
+      case GameMode.movie:
+        return "Famous Movies";
       case GameMode.test:
         return "测试挑战";
       default:
@@ -136,7 +139,9 @@ class GameStore {
       case GameMode.renwu:
         return "猜历史人物";
       case GameMode.anime:
-        return "Guess an Anime";
+        return "Guess a Japan anime";
+      case GameMode.movie:
+        return "Guess a famous movie";
       case GameMode.test:
         return "测试一下";
       default:

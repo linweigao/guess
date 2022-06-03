@@ -4,6 +4,7 @@ enum GameMode {
   dongman,
   chengyu,
   renwu,
+  movie,
   anime,
   test,
 }
