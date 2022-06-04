@@ -117,13 +117,13 @@ class _QuestionState extends State<QuestionWidget> {
         onSubmitRemoved: _onSubmitRemoved,
       ),
       const SizedBox(height: 25),
-      Expanded(
+      SizedBox(
+          height: 250,
           child: OptionsList(
-        options: _optionsList,
-        onOptionSubmit: _onSubmitTapped,
-        hideOption: widget.showHint ? _hideOption : "",
-      )),
-      const SizedBox(height: 50)
+            options: _optionsList,
+            onOptionSubmit: _onSubmitTapped,
+            hideOption: widget.showHint ? _hideOption : "",
+          )),
     ]);
   }
 }

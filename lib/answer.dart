@@ -23,9 +23,9 @@ class Answer extends StatelessWidget {
       BoxedText(text: question.question, height: 150),
       const SizedBox(height: 25),
       BoxedText(text: question.answer, height: 150),
-      const SizedBox(height: 50),
+      const SizedBox(height: 30),
       Container(
-          height: 400,
+          height: 350,
           padding: const EdgeInsets.only(left: 30, right: 30),
           child: DefaultTextStyle(
               style: Theme.of(context)
