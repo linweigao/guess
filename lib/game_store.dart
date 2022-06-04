@@ -61,9 +61,11 @@ class GameStore {
   static List<String> englishWords = [];
   static bool freeVisit = false;
   static bool allVisit = false;
+  static String iconPath = "";
 
   static Future init() async {
     await AssetsUtils.init();
+    // iconPath = await AssetsUtils.loadIcon();
     for (var mode in modes) {
       var questions = QuestionSet(mode);
       await questions.init();

@@ -30,7 +30,10 @@ class _OptionsListState extends State<OptionsList> {
   Widget build(BuildContext context) {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 6, mainAxisSpacing: 6, childAspectRatio: (1 / 0.5)),
+          crossAxisCount: 6,
+          mainAxisSpacing: 6,
+          childAspectRatio: (1 / 0.5),
+          mainAxisExtent: 60),
       itemCount: widget.options.length,
       itemBuilder: (BuildContext context, int index) {
         final answer = widget.options[index];

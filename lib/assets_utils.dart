@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data.dart';
@@ -18,6 +20,16 @@ class AssetsUtils {
     List<Question> questions =
         List<Question>.from(l.map((model) => Question.fromJson(model, mode)));
     return questions;
+  }
+
+  static Future<String> loadIcon() async {
+    final bytes = await rootBundle.load("assets/icon_160.png");
+    final tempDir = await getTemporaryDirectory();
+    final filePath = "${tempDir.path}/image.jpg";
+    final file = await File(filePath).create();
+    file.writeAsBytesSync(bytes.buffer.asUint8List());
+
+    return filePath;
   }
 
   static readCorrectAnswered(GameMode mode) {

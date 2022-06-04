@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:guess/answer.dart';
+import 'package:guess/page_answer.dart';
 import 'package:guess/game_end.dart';
-import 'package:guess/question.dart';
+import 'package:guess/page_question.dart';
 import 'package:share_plus/share_plus.dart';
 
 import 'data.dart';
@@ -21,7 +21,6 @@ class _GameState extends State<Game> {
   int _current = 0;
   bool _showAnswer = false;
   bool _answerCorrect = false;
-  bool _showHint = false;
 
   @override
   void initState() {
@@ -49,7 +48,6 @@ class _GameState extends State<Game> {
     setState(() {
       _showAnswer = false;
       _answerCorrect = false;
-      _showHint = false;
       _current++;
     });
   }
@@ -64,125 +62,6 @@ class _GameState extends State<Game> {
     });
   }
 
-  void _onShowHint() {
-    setState(() {
-      _showHint = true;
-    });
-  }
-
-  void _onShare() {
-    final question = questions[_current];
-    if (_answerCorrect) {
-      Share.share(GameStore.shareCorrectAnswer(question));
-    } else {
-      Share.share(GameStore.shareQuestion(question));
-    }
-  }
-
-  void _onShareHelp() {
-    final question = questions[_current];
-    Share.share(GameStore.shareQuestion(question));
-  }
-
-  Widget _buildQuestionPage(BuildContext context, Question question) {
-    final title = GameStore.gameModeTitle(question.mode);
-
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: Stack(
-          children: <Widget>[
-            QuestionWidget(
-              key: Key(_current.toString()),
-              question: question,
-              showHint: _showHint,
-              answerMatch: _onAnswerMatch,
-            ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, bottom: 20),
-                child: FloatingActionButton(
-                    heroTag: null,
-                    onPressed: _onShowHint,
-                    tooltip: '去掉一个错误',
-                    child: const Icon(Icons.live_help, size: 30)),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: FloatingActionButton(
-                    heroTag: null,
-                    onPressed: _onShareHelp,
-                    tooltip: '场外求助',
-                    child: const Icon(Icons.ios_share, size: 30)),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 20, bottom: 20),
-                child: FloatingActionButton(
-                    heroTag: null,
-                    onPressed: _onGiveUp,
-                    tooltip: '放弃',
-                    child: const Icon(Icons.navigate_next, size: 30)),
-              ),
-            ),
-          ],
-        ));
-  }
-
-  Widget _buildAnswerPage(BuildContext context, Question question) {
-    final title = _answerCorrect
-        ? GameStore.correctAnswerTitle()
-        : GameStore.wrongAnswerTitle();
-
-    final dialog = _answerCorrect
-        ? GameStore.correctAnswerTitle()
-        : GameStore.wrongAnswerTitle();
-
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: Stack(
-          children: <Widget>[
-            Answer(
-              key: Key(_current.toString()),
-              question: question,
-              correct: _answerCorrect,
-              defaultDialg: dialog,
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: FloatingActionButton(
-                    heroTag: null,
-                    onPressed: _onShare,
-                    tooltip: '分享成功',
-                    child: const Icon(Icons.ios_share, size: 30)),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 20, bottom: 20),
-                child: FloatingActionButton(
-                    heroTag: null,
-                    onPressed: _onNext,
-                    tooltip: '下一题',
-                    child: const Icon(Icons.navigate_next, size: 30)),
-              ),
-            ),
-          ],
-        ));
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_current == questions.length) {
@@ -192,9 +71,18 @@ class _GameState extends State<Game> {
     Question current = questions[_current];
 
     if (_showAnswer) {
-      return _buildAnswerPage(context, current);
+      return AnswerPage(
+        key: Key(_current.toString()),
+        question: current,
+        correct: _answerCorrect,
+        next: _onNext,
+      );
     }
 
-    return _buildQuestionPage(context, current);
+    return QuestionPage(
+        key: Key(_current.toString()),
+        question: current,
+        answerMatch: _onAnswerMatch,
+        giveUp: _onGiveUp);
   }
 }
