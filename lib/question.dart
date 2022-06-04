@@ -122,7 +122,8 @@ class _QuestionState extends State<QuestionWidget> {
         options: _optionsList,
         onOptionSubmit: _onSubmitTapped,
         hideOption: widget.showHint ? _hideOption : "",
-      ))
+      )),
+      const SizedBox(height: 50)
     ]);
   }
 }

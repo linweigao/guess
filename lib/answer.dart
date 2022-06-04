@@ -24,26 +24,19 @@ class Answer extends StatelessWidget {
       const SizedBox(height: 25),
       BoxedText(text: question.answer, height: 150),
       const SizedBox(height: 50),
-      FittedBox(
-          fit: BoxFit.fitHeight,
-          child: Container(
-              padding: const EdgeInsets.only(left: 30, right: 30),
-              child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerLeft,
-                  child: DefaultTextStyle(
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .merge(const TextStyle(fontSize: 30)),
-                      child: AnimatedTextKit(
-                          isRepeatingAnimation: false,
-                          animatedTexts: [
-                            TypewriterAnimatedText(dialog,
-                                cursor: "",
-                                speed: const Duration(milliseconds: 100)),
-                          ]))))),
-      const SizedBox(height: 50),
+      Container(
+          height: 400,
+          padding: const EdgeInsets.only(left: 30, right: 30),
+          child: DefaultTextStyle(
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .merge(const TextStyle(fontSize: 30)),
+              child:
+                  AnimatedTextKit(isRepeatingAnimation: false, animatedTexts: [
+                TypewriterAnimatedText(dialog,
+                    cursor: "", speed: const Duration(milliseconds: 100)),
+              ]))),
     ]);
   }
 }
