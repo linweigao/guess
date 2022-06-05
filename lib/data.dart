@@ -6,7 +6,7 @@ enum GameMode {
   renwu,
   movie,
   anime,
-  test,
+  // test,
 }
 
 class Question {

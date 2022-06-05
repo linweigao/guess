@@ -27,7 +27,7 @@ class GameStore {
     GameMode.renwu,
     GameMode.anime,
     GameMode.movie,
-    GameMode.test
+    // GameMode.test
   ];
   static final correctAnswerTitles = [
     "你的🧠怎么长的",
@@ -121,8 +121,8 @@ class GameStore {
         return "Animes";
       case GameMode.movie:
         return "Movies";
-      case GameMode.test:
-        return "测试挑战";
+      // case GameMode.test:
+      //   return "测试挑战";
       default:
         return "";
     }
@@ -144,8 +144,8 @@ class GameStore {
         return "Guess a Japan anime";
       case GameMode.movie:
         return "Guess a famous movie";
-      case GameMode.test:
-        return "测试一下";
+      // case GameMode.test:
+      //   return "测试一下";
       default:
         return "";
     }
