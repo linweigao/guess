@@ -119,14 +119,31 @@ class _QuestionState extends State<QuestionPage> {
 
   void _onShareHelp() async {
     final question = widget.question;
-    Share.shareFiles([GameStore.iconPath],
-        text: GameStore.shareQuestion(question),
-        subject: GameStore.shareQuestion(question));
+    Share.share(GameStore.shareQuestion(question));
+
+    // TODO: Share Image to match wechat requirement.
+    // BuildContext context = _globalKey.currentContext!;
+    // RenderRepaintBoundary boundary =
+    //     context.findRenderObject() as RenderRepaintBoundary;
+    // MediaQueryData queryData = MediaQuery.of(context);
+    // final image =
+    //     await boundary.toImage(pixelRatio: queryData.devicePixelRatio);
+    // ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
+
+    // final tempDir = await getTemporaryDirectory();
+
+    // final filePath = "${tempDir.path}/share.png";
+    // final file = await File(filePath).create();
+    // file.writeAsBytesSync(byteData!.buffer.asUint8List());
+
+    // Share.shareFiles([filePath],
+    //     text: GameStore.shareQuestion(question),
+    //     subject: GameStore.shareQuestion(question));
   }
 
   _buildBody(BuildContext context, Question question) {
     return Column(children: [
-      RepaintBoundary(child: BoxedText(text: question.question, height: 300)),
+      BoxedText(text: question.question, height: 300),
       const SizedBox(height: 25),
       SubmitList(
         submitAnswer: _submit,
