@@ -1,3 +1,3 @@
 # 脑洞大猜
 
-!(iOS URL)[images/qrcode.png]
+![iOS URL](images/qrcode.png)
