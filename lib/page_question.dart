@@ -34,6 +34,7 @@ class _QuestionState extends State<QuestionPage> {
   late String _hideOption;
   late bool _isEnglish;
   bool _showHint = false;
+  final shareButtonKey = GlobalKey();
 
   @override
   void initState() {
@@ -119,7 +120,8 @@ class _QuestionState extends State<QuestionPage> {
 
   void _onShareHelp() async {
     final question = widget.question;
-    Share.share(GameStore.shareQuestion(question));
+    Share.share(GameStore.shareQuestion(question),
+        sharePositionOrigin: shareButtonRect());
 
     // TODO: Share Image to match wechat requirement.
     // BuildContext context = _globalKey.currentContext!;
@@ -139,6 +141,20 @@ class _QuestionState extends State<QuestionPage> {
     // Share.shareFiles([filePath],
     //     text: GameStore.shareQuestion(question),
     //     subject: GameStore.shareQuestion(question));
+  }
+
+  Rect shareButtonRect() {
+    RenderBox renderBox =
+        shareButtonKey.currentContext?.findRenderObject() as RenderBox;
+
+    Size size = renderBox.size;
+    Offset position = renderBox.localToGlobal(Offset.zero);
+
+    return Rect.fromCenter(
+      center: position + Offset(size.width / 2, size.height / 2),
+      width: size.width,
+      height: size.height,
+    );
   }
 
   _buildBody(BuildContext context, Question question) {
@@ -190,6 +206,7 @@ class _QuestionState extends State<QuestionPage> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: FloatingActionButton(
+                    key: shareButtonKey,
                     heroTag: null,
                     onPressed: _onShareHelp,
                     tooltip: '场外求助',
