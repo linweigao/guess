@@ -46,14 +46,14 @@ class GameStore {
     "🐷🧠过载了吗？"
   ];
   static final shareQuestionTexts = [
-    "【🤯脑洞大开】求助！这个题目【{question}{guess}】是什么啊？",
-    "【🤯脑洞大开】在线等：题目【{question}{guess}】太变态了！",
-    "【🤯脑洞大开】求大神：神仙题目【{question}{guess}】猜不出来！",
+    "【🤯脑洞大猜】求助！这个题目【{question}{guess}】是什么啊？",
+    "【🤯脑洞大猜】在线等：题目【{question}{guess}】太变态了！",
+    "【🤯脑洞大猜】求大神：神仙题目【{question}{guess}】猜不出来！",
   ];
   static final shareCorrectAnswerTexts = [
-    "【🤯脑洞大开】这题目【{question}{guess}】，so easy！",
-    "【🤯脑洞大开】就这就这，【{question}{guess}】！",
-    "【🤯脑洞大开】炸鱼【{question}{guess}】这有什么难的！",
+    "【🤯脑洞大猜】这题目【{question}{guess}】，so easy！",
+    "【🤯脑洞大猜】就这就这，【{question}{guess}】！",
+    "【🤯脑洞大猜】炸鱼【{question}{guess}】这有什么难的！",
   ];
   static final Map<GameMode, QuestionSet> modeSet = <GameMode, QuestionSet>{};
   static List<Question> allQuestions = [];

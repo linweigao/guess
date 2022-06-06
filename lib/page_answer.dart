@@ -9,7 +9,8 @@ class AnswerPage extends StatelessWidget {
   final Question question;
   final bool correct;
   final Function next;
-  const AnswerPage(
+  final shareButtonKey = GlobalKey();
+  AnswerPage(
       {super.key,
       required this.question,
       required this.correct,
@@ -17,10 +18,26 @@ class AnswerPage extends StatelessWidget {
 
   void _onShare() {
     if (correct) {
-      Share.share(GameStore.shareCorrectAnswer(question));
+      Share.share(GameStore.shareCorrectAnswer(question),
+          sharePositionOrigin: shareButtonRect());
     } else {
-      Share.share(GameStore.shareQuestion(question));
+      Share.share(GameStore.shareQuestion(question),
+          sharePositionOrigin: shareButtonRect());
     }
+  }
+
+  Rect shareButtonRect() {
+    RenderBox renderBox =
+        shareButtonKey.currentContext?.findRenderObject() as RenderBox;
+
+    Size size = renderBox.size;
+    Offset position = renderBox.localToGlobal(Offset.zero);
+
+    return Rect.fromCenter(
+      center: position + Offset(size.width / 2, size.height / 2),
+      width: size.width,
+      height: size.height,
+    );
   }
 
   void _onNext() {
@@ -72,9 +89,10 @@ class AnswerPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: FloatingActionButton(
+                    key: shareButtonKey,
                     heroTag: null,
                     onPressed: _onShare,
-                    tooltip: '分享成功',
+                    tooltip: '分享',
                     child: const Icon(Icons.ios_share, size: 30)),
               ),
             ),

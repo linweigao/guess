@@ -26,7 +26,7 @@ class _StartScreenState extends State<StartScreen> {
 
   Widget _buildMenu(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("🤯 脑洞大开  请你挑战 🤯")),
+        appBar: AppBar(title: const Text("🤯 脑洞大猜  请你挑战 🤯")),
         body: ListView.builder(
           shrinkWrap: true,
           itemCount: GameMode.values.length,
@@ -234,7 +234,7 @@ class _StartScreenState extends State<StartScreen> {
                   height: 500,
                   child: Column(children: const [
                     Text("🤯", style: TextStyle(fontSize: 280)),
-                    Text("脑洞大开", style: TextStyle(fontSize: 80))
+                    Text("脑洞大猜", style: TextStyle(fontSize: 80))
                   ]),
                 ),
                 Container(

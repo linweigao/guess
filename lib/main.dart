@@ -12,7 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: '脑洞大开',
+        title: '脑洞大猜',
+        debugShowCheckedModeBanner: false,
         darkTheme:
             ThemeData(brightness: Brightness.dark, primarySwatch: Colors.grey),
         themeMode: ThemeMode.dark,
