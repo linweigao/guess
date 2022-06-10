@@ -34,7 +34,6 @@ class _QuestionState extends State<QuestionPage> {
   late String _hideOption;
   late bool _isEnglish;
   bool _showHint = false;
-  final shareButtonKey = GlobalKey();
 
   @override
   void initState() {
@@ -120,8 +119,6 @@ class _QuestionState extends State<QuestionPage> {
 
   Future _onShareHelp(BuildContext context) async {
     final question = widget.question;
-    // Share.share(GameStore.shareQuestion(question),
-    //     sharePositionOrigin: shareButtonRect());
 
     return await Navigator.push(context, MaterialPageRoute(builder: (context) {
       String shareTemplate = GameStore.shareQuestionTexts[
@@ -136,20 +133,6 @@ class _QuestionState extends State<QuestionPage> {
           shareText: shareText,
           question: question);
     }));
-  }
-
-  Rect shareButtonRect() {
-    RenderBox renderBox =
-        shareButtonKey.currentContext?.findRenderObject() as RenderBox;
-
-    Size size = renderBox.size;
-    Offset position = renderBox.localToGlobal(Offset.zero);
-
-    return Rect.fromCenter(
-      center: position + Offset(size.width / 2, size.height / 2),
-      width: size.width,
-      height: size.height,
-    );
   }
 
   _buildBody(BuildContext context, Question question) {
@@ -201,7 +184,6 @@ class _QuestionState extends State<QuestionPage> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: FloatingActionButton(
-                    key: shareButtonKey,
                     heroTag: null,
                     onPressed: () async {
                       await _onShareHelp(context);

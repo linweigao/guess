@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:guess/boxed_text.dart';
+import 'package:guess/screen_share.dart';
 import 'package:share_plus/share_plus.dart';
 import 'data.dart';
 import 'game_store.dart';
@@ -9,35 +12,30 @@ class AnswerPage extends StatelessWidget {
   final Question question;
   final bool correct;
   final Function next;
-  final shareButtonKey = GlobalKey();
-  AnswerPage(
+  const AnswerPage(
       {super.key,
       required this.question,
       required this.correct,
       required this.next});
 
-  void _onShare() {
-    if (correct) {
-      Share.share(GameStore.shareCorrectAnswer(question),
-          sharePositionOrigin: shareButtonRect());
-    } else {
-      Share.share(GameStore.shareQuestion(question),
-          sharePositionOrigin: shareButtonRect());
-    }
-  }
+  Future _onShare(BuildContext context) async {
+    return await Navigator.push(context, MaterialPageRoute(builder: (context) {
+      String shareTemplate = GameStore.shareQuestionTexts[
+          Random().nextInt(GameStore.shareQuestionTexts.length)];
+      if (correct) {
+        shareTemplate = GameStore.shareCorrectAnswerTexts[
+            Random().nextInt(GameStore.shareCorrectAnswerTexts.length)];
+      }
 
-  Rect shareButtonRect() {
-    RenderBox renderBox =
-        shareButtonKey.currentContext?.findRenderObject() as RenderBox;
+      String shareText = shareTemplate
+          .replaceFirst("{question}", question.question)
+          .replaceFirst("{guess}", GameStore.gameModeTitle(question.mode));
 
-    Size size = renderBox.size;
-    Offset position = renderBox.localToGlobal(Offset.zero);
-
-    return Rect.fromCenter(
-      center: position + Offset(size.width / 2, size.height / 2),
-      width: size.width,
-      height: size.height,
-    );
+      return ShareScreen(
+          shareTitle: shareTemplate.replaceFirst("【{question}{guess}】", ""),
+          shareText: shareText,
+          question: question);
+    }));
   }
 
   void _onNext() {
@@ -89,9 +87,10 @@ class AnswerPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: FloatingActionButton(
-                    key: shareButtonKey,
                     heroTag: null,
-                    onPressed: _onShare,
+                    onPressed: () async {
+                      await _onShare(context);
+                    },
                     tooltip: '分享',
                     child: const Icon(Icons.ios_share, size: 30)),
               ),

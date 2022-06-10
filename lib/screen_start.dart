@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_const
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:guess/game_store.dart';
@@ -226,36 +228,41 @@ class _StartScreenState extends State<StartScreen> {
                 });
               }
             },
-            child: Column(
+            child: Stack(
               children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 100),
-                  alignment: Alignment.center,
-                  height: 500,
-                  child: Column(children: const [
-                    Text("🤯", style: TextStyle(fontSize: 280)),
-                    Text("脑洞大猜", style: TextStyle(fontSize: 80))
-                  ]),
+                Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Image(
+                            height: 400,
+                            fit: BoxFit.scaleDown,
+                            image: AssetImage('assets/images/qrcode.png')),
+                        const Text("脑洞大猜", style: TextStyle(fontSize: 80)),
+                        Container(
+                          height: 100,
+                          alignment: Alignment.center,
+                          child: _init
+                              ? DefaultTextStyle(
+                                  style: const TextStyle(fontSize: 60),
+                                  child: AnimatedTextKit(
+                                      onTap: () {
+                                        setState(() {
+                                          _showMenu = true;
+                                        });
+                                      },
+                                      displayFullTextOnTap: true,
+                                      repeatForever: true,
+                                      animatedTexts: [
+                                        FlickerAnimatedText("👆🏻",
+                                            speed: const Duration(
+                                                milliseconds: 1000))
+                                      ]))
+                              : const Text("🚥",
+                                  style: TextStyle(fontSize: 60)),
+                        )
+                      ]),
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  child: _init
-                      ? DefaultTextStyle(
-                          style: const TextStyle(fontSize: 60),
-                          child: AnimatedTextKit(
-                              onTap: () {
-                                setState(() {
-                                  _showMenu = true;
-                                });
-                              },
-                              displayFullTextOnTap: true,
-                              repeatForever: true,
-                              animatedTexts: [
-                                FlickerAnimatedText("👆🏻",
-                                    speed: const Duration(milliseconds: 1000))
-                              ]))
-                      : const Text("🚥", style: TextStyle(fontSize: 60)),
-                )
               ],
             )));
   }

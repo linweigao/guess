@@ -30,45 +30,88 @@ class ShareScreen extends StatefulWidget {
 
 class _ShareScreenState extends State<ShareScreen> {
   final GlobalKey _genKey = GlobalKey();
+  final GlobalKey _shareKey = GlobalKey();
+  final _qrcode = const AssetImage('assets/images/qrcode.png');
+  bool _qrCodeLoaded = false;
+  bool _frameLoaded = false;
 
   _captureImageAndShare() async {
     if (kIsWeb) {
       return;
     }
-    BuildContext context = _genKey.currentContext!;
-    RenderRepaintBoundary boundary =
-        context.findRenderObject() as RenderRepaintBoundary;
 
-    //if (boundary.debugNeedsPaint) {
-    await Future.delayed(const Duration(milliseconds: 20));
-    //return await _captureImageAndShare();
-    // }
+    if (!_frameLoaded || !_qrCodeLoaded) {
+      return;
+    }
 
-    // ignore: use_build_context_synchronously
-    MediaQueryData queryData = MediaQuery.of(context);
-    final image =
-        await boundary.toImage(pixelRatio: queryData.devicePixelRatio);
-    ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
+    try {
+      BuildContext context = _genKey.currentContext!;
+      RenderRepaintBoundary boundary =
+          context.findRenderObject() as RenderRepaintBoundary;
 
-    final tempDir = await getTemporaryDirectory();
+      if (!kReleaseMode && boundary.debugNeedsPaint) {
+        await Future.delayed(const Duration(milliseconds: 20));
+        return await _captureImageAndShare();
+      }
 
-    final filePath = "${tempDir.path}/share.png";
-    final file = await File(filePath).create();
-    file.writeAsBytesSync(byteData!.buffer.asUint8List());
+      await Future.delayed(const Duration(milliseconds: 20));
 
-    await Share.shareFiles([filePath],
-        text: widget.shareText, subject: widget.shareText);
+      // ignore: use_build_context_synchronously
+      MediaQueryData queryData = MediaQuery.of(context);
+      final image =
+          await boundary.toImage(pixelRatio: queryData.devicePixelRatio);
+      ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
 
-    // ignore: use_build_context_synchronously
-    Navigator.pop(context);
+      final tempDir = await getTemporaryDirectory();
+
+      final filePath = "${tempDir.path}/share.png";
+      final file = await File(filePath).create();
+      file.writeAsBytesSync(byteData!.buffer.asUint8List());
+
+      await Share.shareFilesWithResult([filePath],
+          text: widget.shareText,
+          subject: widget.shareText,
+          sharePositionOrigin: shareButtonRect());
+
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context, true);
+    } catch (err) {
+      await Share.shareWithResult(widget.shareText,
+          subject: widget.shareText, sharePositionOrigin: shareButtonRect());
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context, false);
+    }
+  }
+
+  Rect shareButtonRect() {
+    RenderBox renderBox =
+        _shareKey.currentContext?.findRenderObject() as RenderBox;
+
+    Size size = renderBox.size;
+    Offset position = renderBox.localToGlobal(Offset.zero);
+
+    return Rect.fromCenter(
+      center: position + Offset(size.width / 2, size.height / 2),
+      width: size.width,
+      height: size.height,
+    );
   }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if (mounted) _captureImageAndShare();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      if (mounted) {
+        _frameLoaded = true;
+        await _captureImageAndShare();
+      }
     });
+    _qrcode
+        .resolve(const ImageConfiguration())
+        .addListener(ImageStreamListener((ImageInfo info, bool syncCall) async {
+      _qrCodeLoaded = true;
+      await _captureImageAndShare();
+    }));
   }
 
   @override
@@ -79,8 +122,9 @@ class _ShareScreenState extends State<ShareScreen> {
         key: _genKey,
         child: Scaffold(
             body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 25),
+            const SizedBox(height: 40),
             Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: FittedBox(
@@ -103,12 +147,13 @@ class _ShareScreenState extends State<ShareScreen> {
                     child: Text("知道答案⬇️扫码挑战", style: TextStyle(fontSize: 25)))),
             const SizedBox(height: 25),
             SizedBox(
+                key: _shareKey,
                 height: 300,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    image: const DecorationImage(
-                      image: AssetImage('assets/images/qrcode.png'),
+                    image: DecorationImage(
+                      image: _qrcode,
                       fit: BoxFit.scaleDown,
                     ),
                     border: Border.all(
