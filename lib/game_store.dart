@@ -46,14 +46,15 @@ class GameStore {
     "🐷🧠过载了吗？"
   ];
   static final shareQuestionTexts = [
-    "【🤯脑洞大猜】求助！这个题目【{question}{guess}】是什么啊？",
-    "【🤯脑洞大猜】在线等：题目【{question}{guess}】太变态了！",
-    "【🤯脑洞大猜】求大神：神仙题目【{question}{guess}】猜不出来！",
+    "【脑洞大猜】求助！这个题目【{question}{guess}】是什么啊？",
+    "【脑洞大猜】在线等：题目【{question}{guess}】太变态了！",
+    "【脑洞大猜】求大神：神仙题目【{question}{guess}】猜不出来！",
+    "【脑洞大猜】我倒在了这题【{question}{guess}】上。"
   ];
   static final shareCorrectAnswerTexts = [
-    "【🤯脑洞大猜】这题目【{question}{guess}】，so easy！",
-    "【🤯脑洞大猜】就这就这，【{question}{guess}】！",
-    "【🤯脑洞大猜】炸鱼【{question}{guess}】这有什么难的！",
+    "【脑洞大猜】这题目【{question}{guess}】，so easy！",
+    "【脑洞大猜】【{question}{guess}】就这就这！",
+    "【脑洞大猜】炸鱼：【{question}{guess}】这有什么难的！",
   ];
   static final Map<GameMode, QuestionSet> modeSet = <GameMode, QuestionSet>{};
   static List<Question> allQuestions = [];
@@ -116,7 +117,7 @@ class GameStore {
       case GameMode.dongman:
         return "动漫挑战";
       case GameMode.renwu:
-        return "历史人物";
+        return "中国人物";
       case GameMode.anime:
         return "Animes";
       case GameMode.movie:
@@ -139,7 +140,7 @@ class GameStore {
       case GameMode.dongman:
         return "猜动漫人物";
       case GameMode.renwu:
-        return "猜历史人物";
+        return "猜中国人物";
       case GameMode.anime:
         return "Guess a Japan anime";
       case GameMode.movie:

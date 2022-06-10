@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guess/start_screen.dart';
+import 'package:guess/screen_start.dart';
 
 void main() {
   runApp(const MyApp());

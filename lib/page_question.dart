@@ -4,9 +4,9 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:guess/options_list.dart';
+import 'package:guess/screen_share.dart';
 import 'package:guess/submit_list.dart';
 import 'package:guess/boxed_text.dart';
-import 'package:share_plus/share_plus.dart';
 
 import 'data.dart';
 import 'game_store.dart';
@@ -118,29 +118,24 @@ class _QuestionState extends State<QuestionPage> {
     widget.giveUp();
   }
 
-  void _onShareHelp() async {
+  Future _onShareHelp(BuildContext context) async {
     final question = widget.question;
-    Share.share(GameStore.shareQuestion(question),
-        sharePositionOrigin: shareButtonRect());
+    // Share.share(GameStore.shareQuestion(question),
+    //     sharePositionOrigin: shareButtonRect());
 
-    // TODO: Share Image to match wechat requirement.
-    // BuildContext context = _globalKey.currentContext!;
-    // RenderRepaintBoundary boundary =
-    //     context.findRenderObject() as RenderRepaintBoundary;
-    // MediaQueryData queryData = MediaQuery.of(context);
-    // final image =
-    //     await boundary.toImage(pixelRatio: queryData.devicePixelRatio);
-    // ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
+    return await Navigator.push(context, MaterialPageRoute(builder: (context) {
+      String shareTemplate = GameStore.shareQuestionTexts[
+          Random().nextInt(GameStore.shareQuestionTexts.length)];
 
-    // final tempDir = await getTemporaryDirectory();
+      String shareText = shareTemplate
+          .replaceFirst("{question}", question.question)
+          .replaceFirst("{guess}", GameStore.gameModeTitle(question.mode));
 
-    // final filePath = "${tempDir.path}/share.png";
-    // final file = await File(filePath).create();
-    // file.writeAsBytesSync(byteData!.buffer.asUint8List());
-
-    // Share.shareFiles([filePath],
-    //     text: GameStore.shareQuestion(question),
-    //     subject: GameStore.shareQuestion(question));
+      return ShareScreen(
+          shareTitle: shareTemplate.replaceFirst("【{question}{guess}】", ""),
+          shareText: shareText,
+          question: question);
+    }));
   }
 
   Rect shareButtonRect() {
@@ -208,7 +203,9 @@ class _QuestionState extends State<QuestionPage> {
                 child: FloatingActionButton(
                     key: shareButtonKey,
                     heroTag: null,
-                    onPressed: _onShareHelp,
+                    onPressed: () async {
+                      await _onShareHelp(context);
+                    },
                     tooltip: '场外求助',
                     child: const Icon(Icons.ios_share, size: 30)),
               ),

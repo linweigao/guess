@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:guess/page_answer.dart';
-import 'package:guess/game_end.dart';
+import 'package:guess/page_game_end.dart';
 import 'package:guess/page_question.dart';
-import 'package:share_plus/share_plus.dart';
 
 import 'data.dart';
 import 'game_store.dart';

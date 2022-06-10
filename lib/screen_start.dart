@@ -1,7 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:guess/game_store.dart';
-import 'package:guess/game.dart';
+import 'package:guess/screen_game.dart';
 
 import 'data.dart';
 
