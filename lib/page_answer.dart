@@ -4,7 +4,6 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:guess/boxed_text.dart';
 import 'package:guess/screen_share.dart';
-import 'package:share_plus/share_plus.dart';
 import 'data.dart';
 import 'game_store.dart';
 
