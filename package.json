@@ -2,7 +2,7 @@
   "name": "guess",
   "version": "1.0.0",
   "scripts": {
-    "builddocs": "flutter build web --release && rm -R docs/ && mkdir docs && cp -R build/web/* docs/"
+    "builddocs": "flutter build web --release --base-href /guess/ && rm -R docs/ && mkdir docs && cp -R build/web/* docs/"
   },
   "repository": "git@github.com:linweigao/guess.git",
   "author": "Linwei Gao <jogao1983@gmail.com>",
