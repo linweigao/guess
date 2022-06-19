@@ -1,34 +1,34 @@
 {
     "name": "guess",
-    "short_name": "guess",
+    "short_name": "脑洞大猜",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "谜题由各种表情符号组成，涵盖电影、人物、动漫、历史等各种类型的题目，看看你能不能解开所有谜题。\n并有地狱模式的乱斗挑战，适合上知天文、下知English的脑力强人。\n休闲模式适合家庭朋友一起游玩，看看谁才是最强大脑。",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
         {
-            "src": "icons/Icon-192.png",
-            "sizes": "192x192",
-            "type": "image/png"
+            "src": "icon2_120.jpg",
+            "sizes": "120x120",
+            "type": "image/jepg"
         },
         {
-            "src": "icons/Icon-512.png",
+            "src": "icon2-512s.jpg",
             "sizes": "512x512",
-            "type": "image/png"
+            "type": "image/jepg"
         },
         {
-            "src": "icons/Icon-maskable-192.png",
-            "sizes": "192x192",
-            "type": "image/png",
+            "src": "icon2_120.jpg",
+            "sizes": "120x120",
+            "type": "image/jepg",
             "purpose": "maskable"
         },
         {
-            "src": "icons/Icon-maskable-512.png",
+            "src": "icon2-512s.jpg",
             "sizes": "512x512",
-            "type": "image/png",
+            "type": "image/jepg",
             "purpose": "maskable"
         }
     ]
