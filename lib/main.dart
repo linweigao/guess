@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_frame/flutter_web_frame.dart';
+import 'package:guess/screen_info.dart';
 import 'package:guess/screen_start.dart';
 
 void main() {
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget {
                 // is not restarted.
                 primarySwatch: Colors.blue,
               ),
-              home: const StartScreen());
+              home: const StartScreen(),
+              routes: {'/info': (context) => const InfoScreen()});
         },
         maximumSize: const Size(800, double.infinity),
         enabled: kIsWeb,
