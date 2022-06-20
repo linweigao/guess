@@ -123,7 +123,8 @@ class InfoScreen extends StatelessWidget {
           ),
           actionBars,
           Padding(
-              padding: const EdgeInsets.only(top: 20, left: 50, right: 50),
+              padding: const EdgeInsets.only(
+                  top: 20, left: 50, right: 50, bottom: 50),
               child: Container(
                   constraints: const BoxConstraints(maxWidth: 600),
                   padding: const EdgeInsets.all(3),
@@ -152,7 +153,7 @@ class InfoScreen extends StatelessWidget {
                                   TextStyle(color: Colors.grey, fontSize: 20))),
                       const SizedBox(height: 20)
                     ],
-                  )))
+                  ))),
         ],
       ),
     );
