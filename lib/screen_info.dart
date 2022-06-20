@@ -149,8 +149,10 @@ class InfoScreen extends StatelessWidget {
                           onPressed: _onIdeasPressed,
                           child: const Text(
                               "** Contact us if you have great puzzle ideas.",
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 20))),
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 20,
+                                  decoration: TextDecoration.underline))),
                       const SizedBox(height: 20)
                     ],
                   ))),
