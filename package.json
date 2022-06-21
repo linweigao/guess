@@ -2,9 +2,13 @@
   "name": "guess",
   "version": "1.0.0",
   "scripts": {
-    "builddocs": "flutter build web --release --base-href /guess/ && rm -R docs/ && mkdir docs && cp -R build/web/* docs/"
+    "builddocs": "flutter build web --release --base-href /guess/ && rm -R docs/ && mkdir docs && cp -R build/web/* docs/",
+    "buildQR": "node js/buildQR.js"
   },
   "repository": "git@github.com:linweigao/guess.git",
   "author": "Linwei Gao <jogao1983@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "easyqrcodejs-nodejs": "^4.4.4"
+  }
 }
