@@ -4,8 +4,8 @@ const QRCode = require('easyqrcodejs-nodejs');
 // Options
 var options = {
     text: "https://linweigao.github.io/guess/#/info",
-    width: 900,
-    height: 900,
+    width: 512,
+    height: 512,
     logo: "./images/icon2.png",
     // logoWidth: 150,
     // logoHeigth: 150,
