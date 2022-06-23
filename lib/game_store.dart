@@ -21,6 +21,8 @@ class QuestionSet {
 }
 
 class GameStore {
+  static final infoUrl = "https://linweigao.github.io/guess/#/info";
+
   static final modes = [
     GameMode.dongman,
     GameMode.chengyu,

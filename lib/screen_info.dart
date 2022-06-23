@@ -117,45 +117,48 @@ class InfoScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const BoxedText(text: "感谢支持【脑洞大猜】", height: 150),
+          const Expanded(child: BoxedText(text: "感谢支持【脑洞大猜】", height: 150)),
           const SizedBox(
             height: 20,
           ),
           actionBars,
-          Padding(
-              padding: const EdgeInsets.only(
-                  top: 20, left: 50, right: 50, bottom: 50),
-              child: Container(
-                  constraints: const BoxConstraints(maxWidth: 600),
-                  padding: const EdgeInsets.all(3),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    children: [
-                      const Text("Special Thanks / 特别鸣谢",
-                          style:
-                              TextStyle(color: Colors.redAccent, fontSize: 36)),
-                      const Text("Lisa Gao / 高依婷",
-                          style: TextStyle(color: Colors.black, fontSize: 28)),
-                      const SizedBox(height: 40),
-                      const Text("providing ideas / 提供脑洞创意 ",
-                          style: TextStyle(
-                              color: Colors.blueAccent, fontSize: 20)),
-                      const SizedBox(height: 20),
-                      TextButton(
-                          onPressed: _onIdeasPressed,
-                          child: const Text(
-                              "** Contact us if you have great puzzle ideas.",
+          Expanded(
+              flex: 2,
+              child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 20, left: 50, right: 50, bottom: 50),
+                  child: Container(
+                      constraints: const BoxConstraints(maxWidth: 600),
+                      padding: const EdgeInsets.all(3),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        children: [
+                          const Text("Special Thanks / 特别鸣谢",
                               style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 20,
-                                  decoration: TextDecoration.underline))),
-                      const SizedBox(height: 20)
-                    ],
-                  ))),
+                                  color: Colors.redAccent, fontSize: 36)),
+                          const Text("Lisa Gao / 高依婷",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 28)),
+                          const SizedBox(height: 40),
+                          const Text("providing ideas / 提供脑洞创意 ",
+                              style: TextStyle(
+                                  color: Colors.blueAccent, fontSize: 20)),
+                          const SizedBox(height: 20),
+                          TextButton(
+                              onPressed: _onIdeasPressed,
+                              child: const Text(
+                                  "** Contact us if you have great puzzle ideas.",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 20,
+                                      decoration: TextDecoration.underline))),
+                          const SizedBox(height: 20)
+                        ],
+                      )))),
         ],
       ),
     );

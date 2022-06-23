@@ -1,12 +1,14 @@
 import 'dart:math';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:guess/options_list.dart';
 import 'package:guess/screen_share.dart';
 import 'package:guess/submit_list.dart';
 import 'package:guess/boxed_text.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'data.dart';
 import 'game_store.dart';
@@ -119,15 +121,20 @@ class _QuestionState extends State<QuestionPage> {
 
   Future _onShareHelp(BuildContext context) async {
     final question = widget.question;
+    String shareTemplate = GameStore.shareQuestionTexts[
+        Random().nextInt(GameStore.shareQuestionTexts.length)];
 
+    String shareText = shareTemplate
+        .replaceFirst("{question}", question.question)
+        .replaceFirst("{guess}", GameStore.gameModeTitle(question.mode));
+
+    if (kIsWeb) {
+      await Share.share("$shareText\nPlay game at ${GameStore.infoUrl}",
+          subject: shareText);
+      return;
+    }
+    // ignore: use_build_context_synchronously
     return await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      String shareTemplate = GameStore.shareQuestionTexts[
-          Random().nextInt(GameStore.shareQuestionTexts.length)];
-
-      String shareText = shareTemplate
-          .replaceFirst("{question}", question.question)
-          .replaceFirst("{guess}", GameStore.gameModeTitle(question.mode));
-
       return ShareScreen(
           shareTitle: shareTemplate.replaceFirst("【{question}{guess}】", ""),
           shareText: shareText,
@@ -137,7 +144,7 @@ class _QuestionState extends State<QuestionPage> {
 
   _buildBody(BuildContext context, Question question) {
     return Column(children: [
-      BoxedText(text: question.question, height: 300),
+      Expanded(flex: 4, child: BoxedText(text: question.question, height: 300)),
       const SizedBox(height: 25),
       SubmitList(
         submitAnswer: _submit,
@@ -153,6 +160,7 @@ class _QuestionState extends State<QuestionPage> {
             onOptionSubmit: _onSubmitTapped,
             hideOption: _showHint ? _hideOption : "",
           )),
+      const Expanded(child: SizedBox(height: 60))
     ]);
   }
 

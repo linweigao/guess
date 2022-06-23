@@ -49,13 +49,12 @@ class AnswerPage extends StatelessWidget {
         "$correctText\n${question.answerDialog.isNotEmpty ? question.answerDialog : defaultDialog}";
 
     return Column(children: [
-      BoxedText(text: question.question, height: 150),
+      Expanded(child: BoxedText(text: question.question, height: 200)),
       const SizedBox(height: 25),
-      BoxedText(text: question.answer, height: 150),
-      const SizedBox(height: 30),
-      Container(
-          height: 320,
-          padding: const EdgeInsets.only(left: 30, right: 30),
+      Expanded(child: BoxedText(text: question.answer, height: 200)),
+      const SizedBox(height: 25),
+      SizedBox(
+          height: 250,
           child: DefaultTextStyle(
               style: Theme.of(context)
                   .textTheme
@@ -64,7 +63,9 @@ class AnswerPage extends StatelessWidget {
               child:
                   AnimatedTextKit(isRepeatingAnimation: false, animatedTexts: [
                 TypewriterAnimatedText(dialog,
-                    cursor: "", speed: const Duration(milliseconds: 100)),
+                    textAlign: TextAlign.center,
+                    cursor: "",
+                    speed: const Duration(milliseconds: 100)),
               ]))),
     ]);
   }

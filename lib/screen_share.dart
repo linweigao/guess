@@ -124,15 +124,14 @@ class _ShareScreenState extends State<ShareScreen> {
             body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 40),
             Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
+                padding: const EdgeInsets.only(
+                    left: 10, right: 10, top: 40, bottom: 20),
                 child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(widget.shareTitle,
                         style: const TextStyle(fontSize: 40)))),
-            const SizedBox(height: 25),
-            BoxedText(text: question.question, height: 250),
+            Expanded(child: BoxedText(text: question.question, height: 250)),
             const SizedBox(height: 25),
             Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
@@ -141,28 +140,29 @@ class _ShareScreenState extends State<ShareScreen> {
                     child: Text(questionTitle,
                         style: const TextStyle(fontSize: 30)))),
             const Padding(
-                padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+                padding:
+                    EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 20),
                 child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text("知道答案⬇️扫码挑战", style: TextStyle(fontSize: 25)))),
-            const SizedBox(height: 25),
-            SizedBox(
-                key: _shareKey,
-                height: 300,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    image: DecorationImage(
-                      image: _qrcode,
-                      fit: BoxFit.scaleDown,
-                    ),
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 8,
-                    ),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ))
+            Expanded(
+                child: AspectRatio(
+                    aspectRatio: 1 / 1,
+                    key: _shareKey,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        image: DecorationImage(
+                          image: _qrcode,
+                          fit: BoxFit.scaleDown,
+                        ),
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 8,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    )))
           ],
         )));
   }
