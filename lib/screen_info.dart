@@ -11,12 +11,21 @@ class InfoScreen extends StatelessWidget {
 
   static final Uri _webUrl = Uri.parse("https://linweigao.github.io/guess/");
 
+  static final Uri _androidUrl = Uri.parse(
+      'https://play.google.com/store/apps/details?id=com.studio120.guess');
+
   static final Uri _ideasUrl =
       Uri.parse("https://github.com/linweigao/guess/issues");
 
   _onApplePressed() async {
     if (!await launchUrl(_iOSUrl)) {
       throw 'Could not launch $_iOSUrl';
+    }
+  }
+
+  _onGooglePressed() async {
+    if (!await launchUrl(_androidUrl)) {
+      throw 'Could not launch $_androidUrl';
     }
   }
 
@@ -90,14 +99,14 @@ class InfoScreen extends StatelessWidget {
                 // Background color
                 primary: Theme.of(context).colorScheme.primary,
               ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-              onPressed: null,
+              onPressed: _onGooglePressed,
               child: Row(children: const [
                 Icon(
                   Icons.android,
                   size: 50,
                 ),
                 Text(
-                  " Google Play\n (Coming Soon)",
+                  " Download on\n Google Play",
                 )
               ])))
     ];
