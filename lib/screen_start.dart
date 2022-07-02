@@ -232,10 +232,7 @@ class _StartScreenState extends State<StartScreen> {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Image(
-                            height: 400,
-                            fit: BoxFit.scaleDown,
-                            image: AssetImage('assets/images/qrcode.png')),
+                        const Text("🤯", style: TextStyle(fontSize: 300)),
                         const Text("脑洞大猜", style: TextStyle(fontSize: 80)),
                         Container(
                           height: 100,
@@ -261,6 +258,19 @@ class _StartScreenState extends State<StartScreen> {
                         )
                       ]),
                 ),
+                Positioned(
+                  right: 10,
+                  top: 10,
+                  child: InkWell(
+                    onTap: () async {
+                      await Navigator.pushNamed(context, "/info");
+                    },
+                    child: const Image(
+                        height: 100,
+                        fit: BoxFit.scaleDown,
+                        image: AssetImage('assets/images/qrcode.png')),
+                  ),
+                )
               ],
             )));
   }

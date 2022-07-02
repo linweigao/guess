@@ -132,10 +132,10 @@ class InfoScreen extends StatelessWidget {
           ),
           actionBars,
           Expanded(
-              flex: 2,
+              flex: 3,
               child: Padding(
                   padding: const EdgeInsets.only(
-                      top: 20, left: 50, right: 50, bottom: 50),
+                      top: 20, left: 20, right: 20, bottom: 20),
                   child: Container(
                       constraints: const BoxConstraints(maxWidth: 600),
                       padding: const EdgeInsets.all(3),
@@ -152,7 +152,7 @@ class InfoScreen extends StatelessWidget {
                           const Text("Lisa Gao / 高依婷",
                               style:
                                   TextStyle(color: Colors.black, fontSize: 28)),
-                          const SizedBox(height: 40),
+                          Expanded(child: Container()),
                           const Text("providing ideas / 提供脑洞创意 ",
                               style: TextStyle(
                                   color: Colors.blueAccent, fontSize: 20)),
