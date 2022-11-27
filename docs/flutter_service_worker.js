@@ -4,9 +4,9 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "version.json": "8d446fdcaac80c18a574575c14b79062",
-"index.html": "99aa30c74bc27912c78104edf2ccb791",
-"/": "99aa30c74bc27912c78104edf2ccb791",
-"main.dart.js": "fea6e4df7d1d48db5c7e44a361b3afa4",
+"index.html": "2b48a70768fbc3688392e8947c14eb33",
+"/": "2b48a70768fbc3688392e8947c14eb33",
+"main.dart.js": "872417a0ea3e5639aeb61ff5c4bb62a2",
 "flutter.js": "eb2682e33f25cd8f1fc59011497c35f8",
 "manifest.json": "31c9f68c0c1193c3c1d789d49c115fe7",
 "assets/AssetManifest.json": "00bd92ffa84a66b48831bba2b76115c6",
@@ -25,7 +25,7 @@ const RESOURCES = {
 "assets/assets/temp.json": "e47a53ba1850d0b0ed614993d10da386",
 "assets/assets/anime.json": "ad7efa5529c2dbf8a2b8039dcb93c966",
 "assets/assets/renwu.json": "a543e78bd0733dc08a589aed0362942a",
-"assets/assets/dongman.json": "8f20bb086b449729004b60935ad0768a",
+"assets/assets/dongman.json": "5485dbbb61d78584b43b0b9ceaa7b8cb",
 "canvaskit/canvaskit.js": "c2b4e5f3d7a3d82aed024e7249a78487",
 "canvaskit/profiling/canvaskit.js": "ae2949af4efc61d28a4a80fffa1db900",
 "canvaskit/profiling/canvaskit.wasm": "95e736ab31147d1b2c7b25f11d4c32cd",
