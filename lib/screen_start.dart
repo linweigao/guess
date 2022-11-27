@@ -1,7 +1,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:guess/game_store.dart';
 import 'package:guess/screen_game.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'data.dart';
 
@@ -13,6 +15,12 @@ class StartScreen extends StatefulWidget {
 }
 
 class _StartScreenState extends State<StartScreen> {
+  static final Uri _iOSUrl = Uri.parse(
+      'https://apps.apple.com/us/app/%E8%84%91%E6%B4%9E%E5%A4%A7%E7%8C%9C/id1627959353');
+
+  static final Uri _androidUrl = Uri.parse(
+      'https://play.google.com/store/apps/details?id=com.studio120.guess');
+
   bool _init = false;
   bool _showMenu = false;
 
@@ -201,6 +209,118 @@ class _StartScreenState extends State<StartScreen> {
         ));
   }
 
+  _onApplePressed() async {
+    if (!await launchUrl(_iOSUrl)) {
+      throw 'Could not launch $_iOSUrl';
+    }
+  }
+
+  _onGooglePressed() async {
+    if (!await launchUrl(_androidUrl)) {
+      throw 'Could not launch $_androidUrl';
+    }
+  }
+
+  _onWebPressed(BuildContext context) async {
+    setState(() {
+      _showMenu = true;
+    });
+  }
+
+  _buildActionButtons(context) {
+    if (kIsWeb) {
+      return [
+        Container(
+            padding: const EdgeInsets.all(8),
+            width: 200,
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  // Foreground color
+                  onPrimary: Colors.white,
+                  // Background color
+                  primary: Theme.of(context).colorScheme.primary,
+                ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                onPressed: _onApplePressed,
+                child: Row(children: const [
+                  Icon(
+                    Icons.apple,
+                    size: 50,
+                  ),
+                  Text(
+                    " Download on\n App Store",
+                  )
+                ]))),
+        Container(
+            padding: const EdgeInsets.all(8),
+            width: 200,
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  // Foreground color
+                  onPrimary: Colors.white,
+                  // Background color
+                  primary: Theme.of(context).colorScheme.primary,
+                ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                onPressed: () async {
+                  await _onWebPressed(context);
+                },
+                child: Row(children: const [
+                  Icon(
+                    Icons.web_asset,
+                    size: 50,
+                  ),
+                  Text(
+                    " Play on\n Web Broswer",
+                  )
+                ]))),
+        Container(
+            padding: const EdgeInsets.all(8),
+            width: 200,
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  // Foreground color
+                  onPrimary: Colors.white,
+                  // Background color
+                  primary: Theme.of(context).colorScheme.primary,
+                ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                onPressed: _onGooglePressed,
+                child: Row(children: const [
+                  Icon(
+                    Icons.android,
+                    size: 50,
+                  ),
+                  Text(
+                    " Download on\n Google Play",
+                  )
+                ])))
+      ];
+    }
+
+    return [
+      Container(
+          padding: const EdgeInsets.all(8),
+          width: 200,
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                // Foreground color
+                onPrimary: Colors.white,
+                // Background color
+                primary: Theme.of(context).colorScheme.primary,
+              ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+              onPressed: () async {
+                await _onWebPressed(context);
+              },
+              child: Row(children: const [
+                Icon(
+                  Icons.play_circle,
+                  size: 50,
+                ),
+                Text(
+                  " Play Now",
+                )
+              ]))),
+    ];
+  }
+
   @override
   void initState() {
     super.initState();
@@ -216,6 +336,37 @@ class _StartScreenState extends State<StartScreen> {
     if (_showMenu) {
       return _buildMenu(context);
     }
+
+    double width = MediaQuery.of(context).size.width;
+    final actionBars = width >= 600
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: _buildActionButtons(context),
+          )
+        : Column(children: _buildActionButtons(context));
+
+    final supportButton = Container(
+        padding: const EdgeInsets.all(8),
+        width: 150,
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              // Foreground color
+              onPrimary: Colors.white,
+              // Background color
+              primary: Theme.of(context).colorScheme.primary,
+            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+            onPressed: () async {
+              await Navigator.pushNamed(context, "/info");
+            },
+            child: Row(children: const [
+              Icon(
+                Icons.support,
+                size: 40,
+              ),
+              Text(
+                " Support\n Contact",
+              )
+            ])));
 
     return Scaffold(
         body: InkWell(
@@ -234,43 +385,10 @@ class _StartScreenState extends State<StartScreen> {
                       children: [
                         const Text("🤯", style: TextStyle(fontSize: 300)),
                         const Text("脑洞大猜", style: TextStyle(fontSize: 80)),
-                        Container(
-                          height: 100,
-                          alignment: Alignment.center,
-                          child: _init
-                              ? DefaultTextStyle(
-                                  style: const TextStyle(fontSize: 60),
-                                  child: AnimatedTextKit(
-                                      onTap: () {
-                                        setState(() {
-                                          _showMenu = true;
-                                        });
-                                      },
-                                      displayFullTextOnTap: true,
-                                      repeatForever: true,
-                                      animatedTexts: [
-                                        FlickerAnimatedText("👆🏻",
-                                            speed: const Duration(
-                                                milliseconds: 1000))
-                                      ]))
-                              : const Text("🚥",
-                                  style: TextStyle(fontSize: 60)),
-                        )
+                        actionBars
                       ]),
                 ),
-                Positioned(
-                  right: 10,
-                  top: 10,
-                  child: InkWell(
-                    onTap: () async {
-                      await Navigator.pushNamed(context, "/info");
-                    },
-                    child: const Image(
-                        height: 100,
-                        fit: BoxFit.scaleDown,
-                        image: AssetImage('assets/images/qrcode.png')),
-                  ),
-                )
+                Positioned(right: 10, top: 10, child: supportButton)
               ],
             )));
   }

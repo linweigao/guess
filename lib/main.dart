@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
                 primarySwatch: Colors.blue,
               ),
               home: const StartScreen(),
-              routes: {'/info': (context) => const InfoScreen()});
+              routes: {'/info2': (context) => const InfoScreen()});
         },
         maximumSize: const Size(800, double.infinity),
         enabled: kIsWeb,
