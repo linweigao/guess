@@ -356,7 +356,7 @@ class _StartScreenState extends State<StartScreen> {
               primary: Theme.of(context).colorScheme.primary,
             ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
             onPressed: () async {
-              await Navigator.pushNamed(context, "/info");
+              await Navigator.pushNamed(context, "/info2");
             },
             child: Row(children: const [
               Icon(

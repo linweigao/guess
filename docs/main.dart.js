@@ -57562,7 +57562,7 @@ A.a5_.prototype={
 $0(){var s=0,r=A.N(t.H),q=this
 var $async$$0=A.O(function(a,b){if(a===1)return A.K(b,r)
 while(true)switch(s){case 0:s=2
-return A.H(A.dQ(q.a,!1).H9("/info",null,t.X),$async$$0)
+return A.H(A.dQ(q.a,!1).H9("/info2",null,t.X),$async$$0)
 case 2:return A.L(null,r)}})
 return A.M($async$$0,r)},
 $S:9}
